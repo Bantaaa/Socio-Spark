@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\AdminController;
 
 
 /*
@@ -30,3 +31,9 @@ Route::get('/', [EventController::class, 'index'])->name('home');
 Route::get('/create', [EventController::class, 'create'])->name('create');
 
 Route::get('/event/{id}', [EventController::class, 'singleEvent'])->name('singleEvent');
+
+Route::delete('/event/delete/{id}', [EventController::class, 'destroy'])->name('destroy');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+Route::get('/dash', [EventController::class, 'orga'])->name('orga');
+
+

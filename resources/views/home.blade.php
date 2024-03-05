@@ -14,32 +14,39 @@
 
 
         <div class="grid grid-cols-3 gap-4">
-            @forelse ($events as $event)
-            <div class="bg-white rounded-lg shadow-md">
-                <div class="relative">
-                    <img src="{{ asset('images/' . $event->image) }}" alt="{{ $event->title }}" class="w-full h-48 object-cover rounded-t-lg">
-                    <div class="absolute bottom-0 left-0 bg-black bg-opacity-50 text-white p-2">
-                        <h5 class="text-lg font-bold">{{ $event->title }}</h5>
-                    </div>
-                </div>
-                <div class="p-4">
-                    <p class="text-gray-700">Quantity: {{ $event->quantity }}</p>
-                    <div class="flex justify-center mt-4">
-                        <a href="{{ route('singleEvent', ['id' => $event->id]) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
-                            Show
-                        </a>
-                        <a class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                            Reserve
-                        </a>
-                    </div>
-                </div>
+    @forelse ($events as $event)
+    <div class="bg-white rounded-lg shadow-md relative">
+        <div class="relative">
+            <img src="{{ asset('images/' . $event->image) }}" alt="{{ $event->title }}" class="w-full h-48 object-cover rounded-t-lg">
+            <div class="absolute bottom-0 left-0 bg-black bg-opacity-50 text-white p-2">
+                <h5 class="text-lg font-bold">{{ $event->title }}</h5>
             </div>
-            @empty
-            <div class="bg-white rounded-lg shadow-md p-4">
-                <p class="text-gray-700">No events available</p>
-            </div>
-            @endforelse
         </div>
+        <div class="p-4">
+            <p class="text-gray-700">Quantity: {{ $event->quantity }}</p>
+            <div class="flex justify-center mt-4">
+                <a href="{{ route('singleEvent', ['id' => $event->id]) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+                    Show
+                </a>
+                <a class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    Reserve
+                </a>
+                <form action="{{ route('destroy', ['id' => $event->id]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    @empty
+    <div class="bg-white rounded-lg shadow-md p-4">
+        <p class="text-gray-700">No events available</p>
+    </div>
+    @endforelse
+</div>
 
         <div class="d-flex justify-content-center mt-3">
             <!-- links -->

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Event;
+
 class EventController extends Controller
 {
     /**
@@ -37,31 +38,31 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    
-     public function store(Request $request)
-{
-    $image = $request->file('image');
-    $destinationPath = null;
 
-    if ($image = $request->file('image')) {
-        $destinationPath = 'images/';
-        $imageName = date('YmdHis') . "." . $image->getClientOriginalExtension();
-        $image->move($destinationPath, $imageName);
+    public function store(Request $request)
+    {
+        $image = $request->file('image');
+        $destinationPath = null;
+
+        if ($image = $request->file('image')) {
+            $destinationPath = 'images/';
+            $imageName = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $imageName);
+        }
+
+        $event = Event::create([
+            'title' => $request->input('title'),
+            'image' => $imageName,
+            'description' => $request->input('description'),
+            'date' => $request->input('date'),
+            'place' => $request->input('place'),
+            'quantity' => $request->input('quantity'),
+            'category' => $request->input('category'),
+        ]);
+
+        return redirect()->route('home');
     }
 
-    $event = Event::create([
-        'title' => $request->input('title'),
-        'image' => $imageName, 
-        'description' => $request->input('description'),
-        'date' => $request->input('date'),
-        'place' => $request->input('place'),
-        'quantity' => $request->input('quantity'),
-        'category' => $request->input('category'),
-    ]);
-
-    return redirect()->route('home');
-}
-    
 
     /**
      * Display the specified resource.
@@ -71,6 +72,12 @@ class EventController extends Controller
         //
         $events = Event::all();
         return view('events.show', compact('events'));
+    }
+
+    public function orga()
+    {
+        // $events = Event::all();
+        return view('orga');
     }
 
     /**
@@ -92,8 +99,10 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
         //
+        Event::destroy($id);
+        return redirect()->route('home');
     }
 }
