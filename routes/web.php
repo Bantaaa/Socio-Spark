@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EventController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +15,18 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/', [EventController::class, 'index'])->name('home');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/register', [AuthController::class, 'auth'])->name('login');
+Route::get('/login', [AuthController::class, 'auth'])->name('login');
+Route::post('/login', [AuthController::class, 'signin'])->name('login');
+Route::post('/register', [AuthController::class, 'signup'])->name('register');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::post('/store' , [EventController::class , 'store'])->name('store');
+
+Route::get('/', [EventController::class, 'index'])->name('home');
+Route::get('/create', [EventController::class, 'create'])->name('create');
+
+Route::get('/event/{id}', [EventController::class, 'singleEvent'])->name('singleEvent');

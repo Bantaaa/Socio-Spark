@@ -21,71 +21,64 @@
 
     <!-- Sidebar Section -->
     <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
-
-        <!-- Mini Profile Section -->
-        <div class="w-full bg-white shadow flex my-4">
-            <!-- Profile Picture -->
-            <div class="flex-shrink-0 p-6 flex flex-col items-center">
-                <img src="{{ asset('images/2919906.png') }}" alt="Profile Picture" class="h-20 w-20 rounded-full">
-                <div class="mt-4">
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-                        Take ticket
-                    </button>
-                </div>
-                <div class="mt-4">
-                <p>left : 69</p>
-                </div>
+    <h2 class="text-2xl font-semibold">Your Ticket</h2>
+    <!-- Mini Profile Section -->
+    <div class="w-full bg-white shadow flex my-4 border border-blue-500">
+        <!-- Profile Picture -->
+        <div class="flex-shrink-0 p-6 flex flex-col items-center">
+            <img src="{{ asset('images/2919906.png') }}" alt="Profile Picture" class="h-20 w-20 rounded-full">
+            <div class="mt-4">
+                <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Take ticket
+                </button>
             </div>
-
-
-            <!-- Ticket Information -->
-            <div class="flex-grow py-6 px-8">
-                <h3 class="text-2xl font-semibold">{{ session('name') }}</h3>
-                <div class="mt-6">
-                    <h4 class="text-lg font-semibold">Event:</h4>
-                    <p class="text-gray-600">{{ $event->title }}</p>
-                </div>
-                <div class="mt-4">
-                    <h4 class="text-lg font-semibold">Category:</h4>
-                    <p class="text-gray-600">{{ $event->category }}</p>
-                </div>
-                <!-- <div class="mt-4">
-            <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400">
-            Currently being processed
-            </button>
-        </div> -->
+            <div class="mt-4">
+                <p>left: 69</p>
             </div>
         </div>
 
-        <!-- List of Connections Section -->
-
-
-        <!-- List of Users Section -->
-        <div class="w-full bg-white shadow flex flex-col items-center my-4 p-6">
-            <p class="text-xl font-semibold pb-5">Users</p>
-            <form id="searchForm" class="mb-5">
-                <input type="text" id="searchInput" name="query" placeholder="Search" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded ml-2 hover:bg-blue-400">Search</button>
-            </form>
-            <ul id="userList" class="space-y-4 w-96">
-                <!--  -->
-                @foreach($events as $event)
-                <li class="flex items-center">
-                    <img src="{{ asset('images/2919906.png') }}" alt="Profile Picture" class="h-8 w-8 rounded-full">
-                    <h4 class="ml-3">{{$event->title}}</h4>
-                    <div class="ml-auto relative">
-                        <form action="" method="POST" class="inline">
-                            @csrf
-                            <button type="submit" class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-400">
-                                view
-                            </button>
-                        </form>
-                    </div>
-                </li>
-                <!--  -->
-                @endforeach
-            </ul>
+        <!-- Ticket Information -->
+        <div class="flex-grow py-6 px-8">
+            <h3 class="text-2xl font-semibold">{{ session('name') }}</h3>
+            <div class="mt-6">
+                <h4 class="text-lg font-semibold">Event:</h4>
+                <p class="text-gray-600">{{ $event->title }}</p>
+            </div>
+            <div class="mt-4">
+                <h4 class="text-lg font-semibold">Category:</h4>
+                <p class="text-gray-600">{{ $event->category }}</p>
+            </div>
         </div>
-    </aside>
+    </div>
+
+    <!-- List of Connections Section -->
+
+    <!-- List of Users Section -->
+    <div class="w-full bg-white shadow flex flex-col items-center my-4 p-6">
+        <p class="text-xl font-semibold pb-5">Users</p>
+        <form id="searchForm" class="mb-5">
+            <input type="text" id="searchInput" name="query" placeholder="Search" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded ml-2 hover:bg-blue-400">Search</button>
+        </form>
+        <ul id="userList" class="space-y-4 w-96">
+            <!--  -->
+            @foreach($events as $event)
+            <li class="flex items-center">
+                <img src="{{ asset('images/2919906.png') }}" alt="Profile Picture" class="h-8 w-8 rounded-full">
+                <h4 class="ml-3">{{$event->title}}</h4>
+                <div class="ml-auto relative">
+                    <form action="" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-400">
+                            view
+                        </button>
+                    </form>
+                </div>
+            </li>
+            <!--  -->
+            @endforeach
+        </ul>
+    </div>
+</aside>
 </div>
 @endsection
