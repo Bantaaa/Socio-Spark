@@ -25,6 +25,7 @@ class AuthController extends Controller
     }
     public function signup(Request $request)
     {
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users|max:255',
@@ -36,11 +37,24 @@ class AuthController extends Controller
             'password.required' => 'The password field is required.',
             'password.min' => 'The password must be at least 8 characters.',
         ]);
+        
+        $image = $request->file('image');
+        $destinationPath = null;
 
-        $user = $request->all();
-        $user['password'] = Hash::make($request->password);
+        if ($image = $request->file('image')) {
+            $destinationPath = 'images/profile/';
+            $imageName = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $imageName);
+        }
+        
+         
 
-        User::create($user);
+         User::create([
+            'name' => $request->input('name'),
+            'image' => $imageName,
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->password),
+        ]);
 
         return redirect()->route('login')->with('success', 'Account created successfully');
     }

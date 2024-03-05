@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <!-- <link rel="stylesheet" href="./styleAuth.css"> -->
     <link rel="stylesheet" href="{{ asset('assets/css/styleAuth.css') }}">
-    
+
     <link rel="icon" type="image/x-icon" href="{{ asset('images/autour-du-monde.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon-16x16.png') }}">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    
+
     <title>Authentication</title>
 </head>
 
@@ -30,15 +30,16 @@
     @endif
     <div class="container" id="container">
         <div class="form-container sign-up">
-            <form action="{{ route('register') }}" method="POST">
+            <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <h1>Create Account</h1>
 
-                <span>or use your email for registeration</span>
-                <input type="text" name="name" placeholder="name">
+                <span>or use your email for registration</span>
+                <input type="text" name="name" placeholder="Name">
                 <input type="email" name="email" placeholder="Email">
                 <input type="password" name="password" placeholder="Password">
                 <input type="password" name="password_confirmation" placeholder="Confirm Password">
+                <input type="file" name="image" accept="image/*" placeholder="Profile Image">
                 <button type="submit">Sign Up</button>
             </form>
         </div>

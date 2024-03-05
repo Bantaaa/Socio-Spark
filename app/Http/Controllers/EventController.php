@@ -15,7 +15,9 @@ class EventController extends Controller
     {
         $users = User::all();
         $events = Event::all();
-        return view('home', compact('events', 'users'));
+        $currentUser = User::where('id', session('user_id'))->first();
+        // dd($currentUser->image);
+        return view('home', compact('events', 'users', 'currentUser'));
     }
 
     public function singleEvent($id)
@@ -23,7 +25,9 @@ class EventController extends Controller
         $events = Event::all();
         $event = Event::where('id', $id)->first();
         // dd($event);
-        return view('event', compact('event', 'events'));
+        $currentUser = User::where('id', session('user_id'))->first();
+        // dd($currentUser->image);
+        return view('event', compact('event', 'events', 'currentUser'));
     }
 
     /**

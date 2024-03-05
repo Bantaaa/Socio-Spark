@@ -66,10 +66,19 @@
     <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
 
         <!-- Mini Profile Section -->
+        @if($currentUser)
+
+        <div class="w-full bg-white shadow flex flex-col items-center my-4 p-8">
+            <img src="{{ asset('images/profile/'.$currentUser->image) }}" alt="Profile Picture" class="h-20 w-20 rounded-full mb-4">
+            <h3 class="text-2xl font-semibold">{{ session('name') }}</h3>
+        </div>
+
+        @else
         <div class="w-full bg-white shadow flex flex-col items-center my-4 p-8">
             <img src="{{ asset('images/2919906.png') }}" alt="Profile Picture" class="h-20 w-20 rounded-full mb-4">
             <h3 class="text-2xl font-semibold">{{ session('name') }}</h3>
         </div>
+        @endif
 
         <!-- List of Connections Section -->
 

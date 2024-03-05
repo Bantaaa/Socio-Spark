@@ -29,7 +29,7 @@
         <div id="regularTicket" class="w-full bg-white shadow flex my-4 border border-blue-500">
             <!-- Profile Picture -->
             <div class="flex-shrink-0 p-6 flex flex-col items-center">
-                <img src="{{ asset('images/2919906.png') }}" alt="Profile Picture" class="h-20 w-20 rounded-full">
+                <img src="{{ asset('images/profile/'.$currentUser->image) }}" alt="Profile Picture" class="h-20 w-20 rounded-full">
                 <div class="mt-4">
                     <button id="regularTicketButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
                         Take ticket
@@ -62,7 +62,7 @@
         <div id="vipTicket" class="w-full bg-white shadow-lg flex my-4 border border-yellow-500" style="display: none;">
             <!-- Profile Picture -->
             <div class="flex-shrink-0 p-6 flex flex-col items-center">
-                <img src="{{ asset('images/2919906.png') }}" alt="Profile Picture" class="h-20 w-20 rounded-full">
+                <img src="{{ asset('images/profile/'.$currentUser->image) }}" alt="Profile Picture" class="h-20 w-20 rounded-full">
                 <div class="mt-4">
                     <button id="vipTicketButton" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700">
                         Take VIP ticket
