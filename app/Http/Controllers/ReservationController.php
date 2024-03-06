@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Reservation;
+use Illuminate\Support\Facades\Auth;
+
 
 class ReservationController extends Controller
 {
@@ -17,17 +20,41 @@ class ReservationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function checkReservation()
     {
         //
+        
+        
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(int $eventId, string $plan)
     {
         //
+        $reserved = Reservation::where('event_id', $eventId)->where('user_id', Auth::id())->first();
+        if($plan == 'vip')
+        {
+            $plan = 'vip';
+        }
+        elseif($plan == 'standard')
+        {
+            $plan ='standard';
+        }
+
+        if(!$reserved)
+        {
+            $reservation = Reservation::create([
+                'user_id' => Auth::id(),
+                'event_id' => $eventId,
+                'status' => 'created',
+                'plan' => $plan,
+            ]);
+            // dd($reservation);
+        }
+
+        return redirect()->back()->with(compact('reserved', 'plan'));
     }
 
     /**

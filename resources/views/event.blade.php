@@ -13,9 +13,13 @@
             <h2 class="text-2xl font-semibold">{{ $event->title }}</h2>
             <p class="text-gray-600">{{$event->description}}</p>
             <p class="text-gray-600">Quantity: {{$event->quantity}}</p>
-            <button class="bg-blue-500 text-white text-2xl px-8 py-4 rounded mt-4 hover:bg-blue-400">
-                Reserve
-            </button>
+            <form action="{{ route('reserve',['eventId' => $event->id, 'plan' => 'standard']) }}" method="post">
+                @csrf
+                <button type="submit" class="bg-blue-500 text-white text-2xl px-8 py-4 rounded mt-4 hover:bg-blue-400">
+                    Reserve
+                </button>
+            </form>
+            
         </div>
     </section>
 
@@ -31,9 +35,12 @@
             <div class="flex-shrink-0 p-6 flex flex-col items-center">
                 <img src="{{ asset('images/profile/'.$currentUser->image) }}" alt="Profile Picture" class="h-20 w-20 rounded-full">
                 <div class="mt-4">
-                    <button id="regularTicketButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-                        Take ticket
-                    </button>
+                    <form action="{{ route('reserve',['eventId' => $event->id,'plan' => 'standard']) }}" method="post">
+                        @csrf
+                        <button type="submit" id="regularTicketButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            Take ticket
+                        </button>
+                    </form>
                 </div>
                 <div class="mt-4">
                     <p>left: 69</p>
@@ -64,9 +71,12 @@
             <div class="flex-shrink-0 p-6 flex flex-col items-center">
                 <img src="{{ asset('images/profile/'.$currentUser->image) }}" alt="Profile Picture" class="h-20 w-20 rounded-full">
                 <div class="mt-4">
-                    <button id="vipTicketButton" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700">
-                        Take VIP ticket
-                    </button>
+                    <form action="{{ route('reserve',['eventId' => $event->id, 'plan' => 'vip']) }}" method="post">
+                        @csrf
+                        <button id="vipTicketButton" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700">
+                            Take VIP ticket
+                        </button>
+                    </form>
                 </div>
                 <div class="mt-4">
                     <p>left: 69</p>

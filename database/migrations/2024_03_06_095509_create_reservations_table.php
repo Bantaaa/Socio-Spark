@@ -20,6 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('event_id');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
 
+            $table->string('plan');
+
             $table->string('status');
             // $table->string('plan');
             $table->timestamps();
