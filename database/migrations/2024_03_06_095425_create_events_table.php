@@ -17,9 +17,11 @@ return new class extends Migration
 
             // $table->integer('prix');
             $table->text('description')->nullable();
+            $table->string('category')->nullable();
             $table->string('place');
             $table->integer('quantity')->default(1);
             $table->date('date');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
