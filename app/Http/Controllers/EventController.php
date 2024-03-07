@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\Reservation;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -13,6 +15,7 @@ class EventController extends Controller
      */
     public function index()
     {
+        
         $users = User::all();
         $events = Event::all();
         $currentUser = User::where('id', session('user_id'))->first();
@@ -22,12 +25,19 @@ class EventController extends Controller
 
     public function singleEvent($id)
     {
+        $plan = Reservation::where('event_id', $id)->where('user_id', Auth::id())->value('plan');
+        $reserved = Reservation::where('event_id', $id)->where('user_id', Auth::id())->first();
+        // dd($plan);
+
         $events = Event::all();
         $event = Event::where('id', $id)->first();
         // dd($event);
         $currentUser = User::where('id', session('user_id'))->first();
         // dd($currentUser->image);
-        return view('event', compact('event', 'events', 'currentUser'));
+        $left = Event::where('id', $id)->value('quantity');
+
+        return view('event', compact('event', 'events', 'currentUser', 'reserved', 'plan', 'left'));
+
     }
 
     /**
@@ -57,6 +67,7 @@ class EventController extends Controller
         $event = Event::create([
             'title' => $request->input('title'),
             'image' => $imageName,
+            'autoTicket' => $request->input('acceptance'),
             'description' => $request->input('description'),
             'date' => $request->input('date'),
             'place' => $request->input('place'),

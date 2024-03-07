@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
+use App\Models\Event;
+
 use Illuminate\Support\Facades\Auth;
 
 
@@ -23,7 +25,7 @@ class ReservationController extends Controller
     public function checkReservation()
     {
         //
-        
+
         
     }
 
@@ -33,6 +35,7 @@ class ReservationController extends Controller
     public function store(int $eventId, string $plan)
     {
         //
+        $auto = Event::where('id', $eventId)->value('autoTicket');
         $reserved = Reservation::where('event_id', $eventId)->where('user_id', Auth::id())->first();
         if($plan == 'vip')
         {
@@ -43,15 +46,31 @@ class ReservationController extends Controller
             $plan ='standard';
         }
 
-        if(!$reserved)
+
+
+        if(!$reserved && !$auto)
         {
             $reservation = Reservation::create([
                 'user_id' => Auth::id(),
                 'event_id' => $eventId,
-                'status' => 'created',
+                'status' => 'Being processed',
                 'plan' => $plan,
             ]);
             // dd($reservation);
+            Event::where('id', $eventId)->decrement('quantity', 1);
+
+        }
+        elseif(!$reserved && $auto)
+        {
+            $reservation = Reservation::create([
+                'user_id' => Auth::id(),
+                'event_id' => $eventId,
+                'status' => 'Reserved',
+                'plan' => $plan,
+            ]);
+            // dd($reservation);
+            Event::where('id', $eventId)->decrement('quantity', 1);
+
         }
 
         return redirect()->back()->with(compact('reserved', 'plan'));
@@ -60,9 +79,10 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function generateTicket(string $id)
     {
         //
+
     }
 
     /**

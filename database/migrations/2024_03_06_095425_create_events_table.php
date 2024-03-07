@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('category')->nullable();
             $table->string('place');
             $table->integer('quantity')->default(1);
+            $table->boolean('autoTicket')->default(1);
             $table->date('date');
             $table->string('image')->nullable();
             $table->timestamps();
