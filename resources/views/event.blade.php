@@ -27,7 +27,7 @@
 
     <!-- Sidebar Section -->
     <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
-        @if(!$reserved && $event->validated == 1)
+        @if(!$reserved && $event->validated == 1 && session('user_id'))
         <div class="border-b-4 border-blue-500 mb-4">
             <h2 id="regulartext" class="text-2xl font-semibold">Your Ticket</h2>
         </div>

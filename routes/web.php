@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\OrgaController;
 
 
 /*
@@ -35,7 +36,7 @@ Route::get('/event/{id}', [EventController::class, 'singleEvent'])->name('single
 
 Route::delete('/event/delete/{id}', [EventController::class, 'destroy'])->name('destroy');
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-Route::get('/dash', [EventController::class, 'orga'])->name('orga');
+Route::get('/dash', [OrgaController::class, 'index'])->name('orga');
 Route::post('/reserve/{eventId}/{plan}' , [ReservationController::class , 'store'])->name('reserve');
 
 
