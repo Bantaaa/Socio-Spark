@@ -27,7 +27,7 @@
 
     <!-- Sidebar Section -->
     <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
-        @if(!$reserved)
+        @if(!$reserved && $event->validated == 1)
         <div class="border-b-4 border-blue-500 mb-4">
             <h2 id="regulartext" class="text-2xl font-semibold">Your Ticket</h2>
         </div>
@@ -128,7 +128,7 @@
         </div>
         @endif
 
-        @if($plan == 'standard')
+        @if($plan == 'standard' && $event->validated == 1)
         <div class="border-b-4 border-blue-500 mb-4">
             <h2 id="regulartext" class="text-2xl font-semibold">Your Ticket</h2>
         </div>
@@ -166,15 +166,24 @@
                 </div>
                 @elseif ($reserved && $reserved->status == 'Reserved')
                 <div class="mt-4">
-                    <button class="bg-green-500 text-white font-semibold px-4 py-2 rounded">
-                        <i class="fas fa-check mr-2"></i>{{$reserved->status}}
-                    </button>
+                <li class="flex items-center justify-between py-2">
+    <div class="flex items-center">
+        <img src="{{ asset('images/'.$eventx->image) }}" alt="Event 1" class="h-12 w-12 rounded-full">
+        <p class="ml-4">{{ $eventx->title }}</p>
+    </div>
+    <div class="flex items-center">
+        <a href="{{ route('singleEvent', ['id' => $eventx->id]) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <i class="fas fa-times text-red-500 mr-2"></i> <!-- Red X icon -->
+            <span class="text-red-500">View</span>
+        </a>
+    </div>
+</li>
                 </div>
                 @endif
             </div>
         </div>
 
-        @elseif($plan === 'vip')
+        @elseif($plan === 'vip' && $event->validated == 1)
 
         <div class="border-b-4 border-yellow-500 mb-4">
             <h2 id="viptext" class="text-2xl font-semibold">Your VIP Ticket</h2>

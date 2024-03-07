@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            
             $table->string('title');
 
             // $table->integer('prix');
@@ -20,6 +24,7 @@ return new class extends Migration
             $table->string('category')->nullable();
             $table->string('place');
             $table->integer('quantity')->default(1);
+            $table->boolean('validated')->default(0);
             $table->boolean('autoTicket')->default(1);
             $table->date('date');
             $table->string('image')->nullable();

@@ -94,6 +94,9 @@
             padding: 10px;
             text-decoration: none;
         }
+        .btn {
+    width: 100px; /* Adjust the width as desired */
+}
         
 
         

@@ -16,11 +16,23 @@ class EventController extends Controller
     public function index()
     {
         
-        $users = User::all();
-        $events = Event::all();
-        $currentUser = User::where('id', session('user_id'))->first();
+        // $users = User::all();
+        $events = Event::where('validated' , 1)->get();
+        
+        // dd($myEvents);
+        // $canceledEvents = Event::where('user_id', Auth::user()->id)->where('validated', 3)->get();
+        // $pendingEvents = Event::where('user_id', Auth::user()->id)->where('validated', 0)->get();
+        
+        $currentUser = 0;
+        $myEvents = 0;
+        if(Auth::user())
+        {
+            $currentUser = User::where('id', session('user_id'))->first();
+            $myEvents = Event::where('user_id', Auth::user()->id)->get();
+            return view('home', compact('events', 'currentUser','myEvents'));
+        }
         // dd($currentUser->image);
-        return view('home', compact('events', 'users', 'currentUser'));
+        return view('home', compact('events', 'currentUser', 'myEvents'));
     }
 
     public function singleEvent($id)
@@ -29,7 +41,7 @@ class EventController extends Controller
         $reserved = Reservation::where('event_id', $id)->where('user_id', Auth::id())->first();
         // dd($plan);
 
-        $events = Event::all();
+        $events = Event::where('validated' , 1)->get();
         $event = Event::where('id', $id)->first();
         // dd($event);
         $currentUser = User::where('id', session('user_id'))->first();
@@ -64,16 +76,28 @@ class EventController extends Controller
             $image->move($destinationPath, $imageName);
         }
 
+        $acceptance = 0;
+
+        if ($request->input('acceptance') == 'on') {
+            $acceptance = 1;
+        }
+
+        // dd($acceptance);
+
+
         $event = Event::create([
+            'user_id' => Auth::user()->id,
             'title' => $request->input('title'),
             'image' => $imageName,
-            'autoTicket' => $request->input('acceptance'),
+            'autoTicket' => $acceptance,
             'description' => $request->input('description'),
             'date' => $request->input('date'),
             'place' => $request->input('place'),
             'quantity' => $request->input('quantity'),
             'category' => $request->input('category'),
         ]);
+
+        // dd($event);
 
         return redirect()->route('home');
     }
@@ -118,6 +142,6 @@ class EventController extends Controller
     {
         //
         Event::destroy($id);
-        return redirect()->route('home');
+        return redirect()->back();
     }
 }

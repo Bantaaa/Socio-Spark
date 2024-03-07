@@ -104,6 +104,59 @@
                 <!-- Add more events here -->
             </ul>
         </div>
+        <!-- pending events -->
+        <div class="w-full bg-white shadow flex flex-col items-center my-4 p-6">
+            @if($myEvents)
+            <p class="text-xl font-semibold pb-5">My events status</p>
+            <ul class="w-full">
+
+                @foreach ($myEvents as $eventx)
+                @if($eventx->validated == 0)
+                <li class="flex items-center justify-between py-2">
+                    <div class="flex items-center">
+                        <img src="{{ asset('images/'.$eventx->image) }}" alt="Event 1" class="h-12 w-12 rounded-full">
+                        <p class="ml-4">{{ $eventx->title }}</p>
+                    </div>
+                    <div class="flex items-center">
+                        <a href="{{ route('singleEvent', ['id' => $eventx->id]) }}" class="btn bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            <i class="fas fa-clock text-white mr-2"></i> <!-- White clock icon -->
+                            <span class="text-white">View</span>
+                        </a>
+                    </div>
+                </li>
+                @elseif($eventx->validated == 1)
+                <li class="flex items-center justify-between py-2">
+                    <div class="flex items-center">
+                        <img src="{{ asset('images/'.$eventx->image) }}" alt="Event 1" class="h-12 w-12 rounded-full">
+                        <p class="ml-4">{{ $eventx->title }}</p>
+                    </div>
+                    <div class="flex items-center">
+                        <a href="{{ route('singleEvent', ['id' => $eventx->id]) }}" class="btn bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
+                            <i class="fas fa-check text-white mr-2"></i> <!-- White checkmark icon -->
+                            <span class="text-white">View</span>
+                        </a>
+                    </div>
+                </li>
+                @elseif($eventx->validated == 3)
+                <li class="flex items-center justify-between py-2">
+                    <div class="flex items-center">
+                        <img src="{{ asset('images/'.$eventx->image) }}" alt="Event 1" class="h-12 w-12 rounded-full">
+                        <p class="ml-4">{{ $eventx->title }}</p>
+                    </div>
+                    <div class="flex items-center">
+                        <a href="{{ route('singleEvent', ['id' => $eventx->id]) }}" class="btn bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                            <i class="fas fa-times text-white mr-2"></i> <!-- White X icon -->
+                            <span class="text-white">View</span>
+                        </a>
+                    </div>
+                </li>
+                @endif
+                @endforeach
+
+                <!-- Add more events here -->
+            </ul>
+            @endif
+        </div>
 
         <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
 

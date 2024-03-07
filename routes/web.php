@@ -39,4 +39,9 @@ Route::get('/dash', [EventController::class, 'orga'])->name('orga');
 Route::post('/reserve/{eventId}/{plan}' , [ReservationController::class , 'store'])->name('reserve');
 
 
+Route::post('/event/approve/{id}' , [AdminController::class , 'approveEvent'])->name('approveEvent');
+Route::post('/event/reject/{id}' , [AdminController::class , 'rejectEvent'])->name('rejectEvent');
+Route::post('/event/restrict/{id}' , [AdminController::class , 'restrictUser'])->name('restrict');
+
+
 
