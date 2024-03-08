@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,36 +12,67 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
-        .font-family-karla { font-family: karla; }
-        .bg-sidebar { background: #3d68ff; }
-        .cta-btn { color: #3d68ff; }
-        .upgrade-btn { background: #1947ee; }
-        .upgrade-btn:hover { background: #0038fd; }
-        .active-nav-link { background: #1947ee; }
-        .nav-item:hover { background: #1947ee; }
-        .account-link:hover { background: #3d68ff; }
+
+        .font-family-karla {
+            font-family: karla;
+        }
+
+        .bg-sidebar {
+            background: #3d68ff;
+        }
+
+        .cta-btn {
+            color: #3d68ff;
+        }
+
+        .upgrade-btn {
+            background: #1947ee;
+        }
+
+        .upgrade-btn:hover {
+            background: #0038fd;
+        }
+
+        .active-nav-link {
+            background: #1947ee;
+        }
+
+        .nav-item:hover {
+            background: #1947ee;
+        }
+
+        .account-link:hover {
+            background: #3d68ff;
+        }
+
+        .bg-gold-500 {
+            background-color: gold;
+        }
     </style>
 </head>
+
 <body class="bg-gray-100 font-family-karla flex">
 
     <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
         <div class="p-6">
-            <a href="index.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
-            <button class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
-                <i class="fas fa-plus mr-3"></i> New Report
-            </button>
+            <a href="index.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Organizer</a>
+            <form action="{{ route('create') }}" method="post">
+                <button type="submit" class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
+                    <i class="fas fa-plus mr-3"></i> New Event
+                </button>
+            </form>
         </div>
         <nav class="text-white text-base font-semibold pt-3">
-        <a href="{{ route('admin') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+            <a href="{{ route('admin') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                 <i class="fas fa-tachometer-alt mr-3"></i>
                 Administrator
             </a>
-        <a href="{{ route('orga') }}" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+            <a href="{{ route('orga') }}" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
                 <i class="fas fa-tachometer-alt mr-3"></i>
 
                 Event Organizer
             </a>
-            
+
             <!-- <a href="#" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
                 <i class="fas fa-table mr-3"></i>
                 Event Organizer
@@ -49,7 +81,7 @@
                 <i class="fas fa-sticky-note mr-3"></i>
                 Blank Page
             </a> -->
-            
+
             <!-- <a href="forms.html" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                 <i class="fas fa-align-left mr-3"></i>
                 Forms
@@ -142,272 +174,157 @@
                 <i class="fas fa-plus mr-3"></i> New Report
             </button> -->
         </header>
-    
+
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
                 <h1 class="text-3xl text-black pb-6">Tables</h1>
 
                 <div class="w-full mt-6">
                     <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i> Table Example
+                        <i class="fas fa-list mr-3"></i> Event requests
                     </p>
                     <div class="bg-white overflow-auto">
                         <table class="min-w-full bg-white">
                             <thead class="bg-gray-800 text-white">
                                 <tr>
-                                    <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Name</th>
-                                    <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Last name</th>
-                                    <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Phone</th>
-                                    <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Email</td>
+                                    <th class="w-1/6 text-left py-3 px-4 uppercase font-semibold text-sm">Title</th>
+                                    <th class="w-2/6 text-left py-3 px-4 uppercase font-semibold text-sm">Description</th>
+                                    <th class="w-1/6 text-left py-3 px-4 uppercase font-semibold text-sm">Place</th>
+                                    <th class="w-1/12 text-left py-3 px-4 uppercase font-semibold text-sm">Category</th>
+                                    <th class="w-1/12 text-left py-3 px-4 uppercase font-semibold text-sm">Quantity</th>
+                                    <th class="w-1/6 text-left py-3 px-4 uppercase font-semibold text-sm">Reservation Mode</th>
+                                    <th class="w-1/6 text-center py-3 px-4 uppercase font-semibold text-sm">Status</th>
+                                    <th class="w-1/6 text-center py-3 px-4 uppercase font-semibold text-sm">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-700">
+                                @foreach($myEvents as $event)
                                 <tr>
-                                    <td class="w-1/3 text-left py-3 px-4">Lian</td>
-                                    <td class="w-1/3 text-left py-3 px-4">Smith</td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
+                                    <td class="w-1/6 text-left py-3 px-4">{{ $event->title }}</td>
+                                    <td class="w-2/6 text-left py-3 px-4">{{ $event->description }}</td>
+                                    <td class="w-1/6 text-left py-3 px-4">{{ $event->place }}</td>
+                                    <td class="w-1/12 text-left py-3 px-4">{{ $event->category }}</td>
+                                    <td class="w-1/12 text-left py-3 px-4">{{ $event->quantity }}</td>
+                                    @if( $event->autoTicket == 1)
+                                    <td class="w-1/6 text-left py-3 px-4">
+                                        <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full">
+                                            Automatic
+                                        </button>
+                                    </td>
+                                    @elseif( $event->autoTicket == 0)
+                                    <td class="w-1/6 text-left py-3 px-4">
+                                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
+                                            Manual
+                                        </button>
+                                    </td>
+                                    @endif
+                                    <td class="w-1/6 text-center py-3 px-4">
+                                        @if($event->validated == 0)
+                                        <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-full">
+                                            <i class="fas fa-clock"></i>
+                                        </button>
+                                        @elseif($event->validated == 1)
+                                        <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full">
+                                            <i class="fas fa-check"></i> <!-- Green checkmark icon -->
+
+                                        </button>
+                                        @elseif($event->validated == 3)
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                        @endif
+                                    </td>
+                                    <td class="w-1/6 text-center py-3 px-4">
+                                        <div class="flex">
+                                            <form action="{{ route('approveEvent', $event->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="border-none bg-transparent p-0">
+                                                    <i class="fas fa-sync-alt text-blue-500 hover:text-blue-600 cursor-pointer"></i>
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('rejectEvent', $event->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="border-none bg-transparent p-0 ml-4">
+                                                    <i class="fas fa-times text-red-500 hover:text-red-600 cursor-pointer"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
                                 </tr>
-                                <tr class="bg-gray-200">
-                                    <td class="w-1/3 text-left py-3 px-4">Emma</td>
-                                    <td class="w-1/3 text-left py-3 px-4">Johnson</td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="w-1/3 text-left py-3 px-4">Oliver</td>
-                                    <td class="w-1/3 text-left py-3 px-4">Williams</td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                                </tr>
-                                <tr class="bg-gray-200">
-                                    <td class="w-1/3 text-left py-3 px-4">Isabella</td>
-                                    <td class="w-1/3 text-left py-3 px-4">Brown</td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                                </tr>
+                                @endforeach
+                                <!-- Add more rows for other events as needed -->
                             </tbody>
                         </table>
                     </div>
-                    <p class="pt-3 text-gray-600">
-                        Source: <a class="underline" href="https://tailwindcomponents.com/component/striped-table">https://tailwindcomponents.com/component/striped-table</a>
-                    </p>
                 </div>
 
-                <div class="w-full mt-12">
-                    <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i> Table Example
-                    </p>
-                    <div class="bg-white overflow-auto">
-                        <table class="text-left w-full border-collapse"> <!--Border collapse doesn't work on this site yet but it's available in newer tailwind versions -->
-                            <thead>
-                                <tr>
-                                    <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Name</th>
-                                    <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Last Name</th>
-                                    <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Phone</th>
-                                    <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Email</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="hover:bg-grey-lighter">
-                                    <td class="py-4 px-6 border-b border-grey-light">Lian</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">Smith</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">622322662</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">jonsmith@mail.com</td>
-                                </tr>
-                                <tr class="hover:bg-grey-lighter">
-                                    <td class="py-4 px-6 border-b border-grey-light">Lian</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">Smith</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">622322662</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">jonsmith@mail.com</td>
-                                </tr>
-                                <tr class="hover:bg-grey-lighter">
-                                    <td class="py-4 px-6 border-b border-grey-light">Lian</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">Smith</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">622322662</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">jonsmith@mail.com</td>
-                                </tr>
-                                <tr class="hover:bg-grey-lighter">
-                                    <td class="py-4 px-6 border-b border-grey-light">Lian</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">Smith</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">622322662</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">jonsmith@mail.com</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p class="pt-3 text-gray-600">
-                        Source: <a class="underline" href="https://tailwindcomponents.com/component/table">https://tailwindcomponents.com/component/table</a>
-                    </p>
-                </div>
+                
 
+                @foreach($myEvents as $event)
                 <div class="w-full mt-12">
                     <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i> Table Example
+                        <i class="fas fa-list mr-3"></i> {{$event->title}}
                     </p>
+
                     <div class="bg-white overflow-auto">
                         <table class="min-w-full leading-normal">
                             <thead>
                                 <tr>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        User
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Role
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Created at
-                                    </th>
-                                    <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Plan
-                                    </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">User</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Created at</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Plan</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($event->reservation as $reservation)
                                 <tr>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <div class="flex items-center">
                                             <div class="flex-shrink-0 w-10 h-10">
-                                                <img class="w-full h-full rounded-full"
-                                                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                                    alt="" />
+                                                <img class="w-full h-full rounded-full" src="{{ asset('images/profile/'.$reservation->User->image) }}" alt="" />
                                             </div>
                                             <div class="ml-3">
-                                                <p class="text-gray-900 whitespace-no-wrap">
-                                                    Vera Carpenter
-                                                </p>
+                                                <p class="text-gray-900 whitespace-no-wrap">{{$reservation->User->name}}</p>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">Admin</p>
+                                        <p class="text-gray-900 whitespace-no-wrap">{{$reservation->User->email}}</p>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">
-                                            Jan 21, 2020
-                                        </p>
+                                        <p class="text-gray-900 whitespace-no-wrap">{{$reservation->User->created_at}}</p>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <span
-                                            class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                            <span aria-hidden
-                                                class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                            <span class="relative">Regular</span>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 w-10 h-10">
-                                                <img class="w-full h-full rounded-full"
-                                                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                                    alt="" />
-                                            </div>
-                                            <div class="ml-3">
-                                                <p class="text-gray-900 whitespace-no-wrap">
-                                                    Blake Bowman
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">Editor</p>
-                                    </td>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">
-                                            Jan 01, 2020
-                                        </p>
-                                    </td>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <span
-                                            class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                            <span aria-hidden
-                                                class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                                        @if($reservation->plan == 'vip')
+                                        <button class="relative inline-block px-3 py-1 font-semibold text-white leading-tight bg-yellow-500 rounded-full">
                                             <span class="relative">VIP</span>
-                                        </span>
+                                        </button>
+                                        @elseif($reservation->plan == 'standard')
+                                        <button class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight bg-green-200 rounded-full">
+                                            <span class="relative">Regular</span>
+                                        </button>
+                                        @endif
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <span class="text-green-500"><i class="fas fa-check"></i></span>
+                                        <span class="text-red-500 ml-3"><i class="fas fa-times"></i></span>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 w-10 h-10">
-                                                <img class="w-full h-full rounded-full"
-                                                    src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                                    alt="" />
-                                            </div>
-                                            <div class="ml-3">
-                                                <p class="text-gray-900 whitespace-no-wrap">
-                                                    Dana Moore
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">Editor</p>
-                                    </td>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">
-                                            Jan 10, 2020
-                                        </p>
-                                    </td>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <span
-                                            class="relative inline-block px-3 py-1 font-semibold text-orange-900 leading-tight">
-                                            <span aria-hidden
-                                                class="absolute inset-0 bg-orange-200 opacity-50 rounded-full"></span>
-                                            <span class="relative">Suspended</span>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-5 py-5 bg-white text-sm">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 w-10 h-10">
-                                                <img class="w-full h-full rounded-full"
-                                                    src="https://images.unsplash.com/photo-1522609925277-66fea332c575?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&h=160&w=160&q=80"
-                                                    alt="" />
-                                            </div>
-                                            <div class="ml-3">
-                                                <p class="text-gray-900 whitespace-no-wrap">
-                                                    Alonzo Cox
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-5 py-5 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">Admin</p>
-                                    </td>
-                                    <td class="px-5 py-5 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">Jan 18, 2020</p>
-                                    </td>
-                                    <td class="px-5 py-5 bg-white text-sm">
-                                        <span
-                                            class="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
-                                            <span aria-hidden
-                                                class="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-                                            <span class="relative">Inactive</span>
-                                        </span>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
-                    <p class="pt-3 text-gray-600">
-                        Source: <a class="underline" href="https://tailwindcomponents.com/component/table-responsive-with-filters">https://tailwindcomponents.com/component/table-responsive-with-filters</a>
-                    </p>
                 </div>
+                @endforeach
             </main>
-    
+
             <footer class="w-full bg-white text-right p-4">
                 Built by <a target="_blank" href="https://davidgrzyb.com" class="underline">David Grzyb</a>.
             </footer>
         </div>
-        
+
     </div>
 
     <!-- AlpineJS -->
@@ -415,4 +332,5 @@
     <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
 </body>
+
 </html>

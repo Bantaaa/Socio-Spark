@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Event;
+use App\Models\Reservation;
+// use App\Models\Event;
 
 class OrgaController extends Controller
 {
@@ -12,7 +16,21 @@ class OrgaController extends Controller
     public function index()
     {
         //
-        return view('orga');
+        // $reservationRequest = [];
+        // $myEvents = Event::where('user_id', Auth::user()->id)->get();
+        $myEvents = Event::where('user_id', Auth::user()->id)
+        ->with('Reservation.User')
+        ->get();
+        // return response()->json($myEvents);
+        // dd($myEvents);
+        // foreach ($myEvents as $event)
+        // {
+            
+        //     $reservationRequest[$event->id] = Reservation::where('event_id', $event->id)->where('status', 'Being processed')->get();
+        //     dd($reservationRequest);
+        // }
+
+        return view('orga', compact('myEvents'));
     }
 
     /**
