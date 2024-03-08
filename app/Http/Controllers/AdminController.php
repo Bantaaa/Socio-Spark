@@ -14,6 +14,7 @@ class AdminController extends Controller
     public function index()
     {
         //
+        $users = User::all();
         $nonApprovedEvents = Event::where('validated', 0)->get();
         $approvedEvents = Event::where('validated', 1)->get();
         $canceledEvents = Event::where('validated', 3)->get();
@@ -22,7 +23,7 @@ class AdminController extends Controller
 
         // dd($events);
 
-        return view('dashboard', compact('approvedEvents', 'nonApprovedEvents','canceledEvents', 'currentUser'));
+        return view('dashboard', compact('approvedEvents', 'nonApprovedEvents','canceledEvents', 'currentUser', 'users'));
     }
 
     /**
@@ -50,7 +51,7 @@ class AdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function restrictUser(int $id)
+    public function ban(int $id)
     {
         //
         $user = User::find($id);
@@ -59,13 +60,24 @@ class AdminController extends Controller
 
         return redirect()->back();
     }
+    public function unban(int $id)
+    {
+        //
+        $user = User::find($id);
+        $user->active = 1;
+        $user->save();
+
+        return redirect()->back();
+    }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function getUsers()
     {
         //
+        
+        redirect()->back();
     }
 
     /**

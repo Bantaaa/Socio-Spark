@@ -23,6 +23,11 @@ class AuthController extends Controller
 
         return view("auth");
     }
+
+    public function forbidden()
+    {
+        return view('forbidden');
+    }
     public function signup(Request $request)
     {
 
@@ -79,9 +84,14 @@ class AuthController extends Controller
                 // 'role' => $user->role,
                 'name' => $user->name,
                 'user_id' => $user->id,
+                'role' => $user->role,
             ]);
             // dd(session('role'));
-            return redirect()->route('home'); // Redirect to the intended page or your dashboard
+            if($user ->active == 0)
+            {
+                return redirect()->route('forbidden');
+            }
+            return redirect()->route('home');
         } else {
             // Authentication failed
             return redirect()->route('register');

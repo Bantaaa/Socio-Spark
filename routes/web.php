@@ -20,6 +20,7 @@ use App\Http\Controllers\TicketController;
 |
 */
 Route::get('/', [EventController::class, 'index'])->name('home');
+Route::get('/forbidden', [AuthController::class, 'forbidden'])->name('forbidden');
 
 
 Route::get('/register', [AuthController::class, 'auth'])->name('login');
@@ -27,6 +28,7 @@ Route::get('/login', [AuthController::class, 'auth'])->name('login');
 Route::post('/login', [AuthController::class, 'signin'])->name('login');
 Route::post('/register', [AuthController::class, 'signup'])->name('register');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 Route::post('/store' , [EventController::class , 'store'])->name('store');
 
@@ -43,7 +45,9 @@ Route::post('/reserve/{eventId}/{plan}' , [ReservationController::class , 'store
 
 Route::post('/event/approve/{id}' , [AdminController::class , 'approveEvent'])->name('approveEvent');
 Route::post('/event/reject/{id}' , [AdminController::class , 'rejectEvent'])->name('rejectEvent');
-Route::post('/event/restrict/{id}' , [AdminController::class , 'restrictUser'])->name('restrict');
+
+Route::post('/user/ban/{id}' , [AdminController::class , 'ban'])->name('ban');
+Route::post('/user/unban/{id}' , [AdminController::class , 'unban'])->name('unban');
 
 Route::get('/ticket/create/{id}' , [TicketController::class , 'createTicket'])->name('createTicket');
 
