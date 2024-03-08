@@ -190,7 +190,7 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-700">
-                                @foreach($nonApprovedEvents as $event)
+                                @forelse($nonApprovedEvents as $event)
                                 <tr>
                                     <td class="w-1/6 text-left py-3 px-4">{{ $event->title }}</td>
                                     <td class="w-2/6 text-left py-3 px-4">{{ $event->description }}</td>
@@ -227,7 +227,14 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                <!-- No reservations message -->
+                                <tr>
+                                    <td colspan="5" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                        No event requests have been made yet.
+                                    </td>
+                                </tr>
+                                @endforelse
                                 <!-- Add more rows for other events as needed -->
                             </tbody>
                         </table>
@@ -237,7 +244,7 @@
 
                 <div class="w-full mt-6">
                     <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i> Approved Events
+                        <i class="fas fa-check-circle text-green-500 mr-3"></i> Approved Events
                     </p>
                     <div class="bg-white overflow-auto">
                         <table class="min-w-full bg-white">
@@ -253,7 +260,7 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-700">
-                                @foreach($approvedEvents as $event)
+                                @forelse($approvedEvents as $event)
                                 <tr>
                                     <td class="w-1/6 text-left py-3 px-4">{{ $event->title }}</td>
                                     <td class="w-2/6 text-left py-3 px-4">{{ $event->description }}</td>
@@ -284,7 +291,14 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                <!-- No reservations message -->
+                                <tr>
+                                    <td colspan="5" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                        No events have been approved yet.
+                                    </td>
+                                </tr>
+                                @endforelse
                                 <!-- Add more rows for other events as needed -->
                             </tbody>
                         </table>
@@ -294,7 +308,7 @@
                 </div>
                 <div class="w-full mt-6">
                     <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i> Canceled Events
+                        <i class="fas fa-times-circle text-red-500 mr-3"></i> Canceled Events
                     </p>
                     <div class="bg-white overflow-auto">
                         <table class="min-w-full bg-white">
@@ -310,7 +324,7 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-700">
-                                @foreach($canceledEvents as $event)
+                                @forelse($canceledEvents as $event)
                                 <tr>
                                     <td class="w-1/6 text-left py-3 px-4">{{ $event->title }}</td>
                                     <td class="w-2/6 text-left py-3 px-4">{{ $event->description }}</td>
@@ -336,13 +350,20 @@
                                                 @method('DELETE')
                                                 @csrf
                                                 <button type="submit" class="border-none bg-transparent p-0 ml-4">
-                                                    <i class="fas fa-times text-red-500 hover:text-red-600 cursor-pointer"></i>
+                                                    <i class="fas fa-trash-alt text-red-500 hover:text-red-600 cursor-pointer"></i>
                                                 </button>
                                             </form>
                                         </div>
                                     </td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                <!-- No reservations message -->
+                                <tr>
+                                    <td colspan="5" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                        No events have been canceled yet.
+                                    </td>
+                                </tr>
+                                @endforelse
                                 <!-- Add more rows for other events as needed -->
                             </tbody>
                         </table>
@@ -350,7 +371,7 @@
 
 
                 </div>
-                
+
 
                 <!-- <div class="w-full mt-12">
                     <p class="text-xl pb-3 flex items-center">
@@ -541,9 +562,8 @@
                 </div>
             </main>
 
-            <footer class="w-full bg-white text-right p-4">
-                Built by <a target="_blank" href="https://davidgrzyb.com" class="underline">David Grzyb</a>.
-            </footer>
+            <!-- <footer class="w-full bg-white text-right p-4">
+            </footer> -->
         </div>
 
     </div>

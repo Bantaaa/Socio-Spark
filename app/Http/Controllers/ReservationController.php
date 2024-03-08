@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Reservation;
 use App\Models\Event;
+use App\Models\Ticket;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -68,6 +69,7 @@ class ReservationController extends Controller
                 'status' => 'Reserved',
                 'plan' => $plan,
             ]);
+            
             // dd($reservation);
             Event::where('id', $eventId)->decrement('quantity', 1);
 

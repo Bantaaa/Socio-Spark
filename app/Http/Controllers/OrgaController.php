@@ -19,13 +19,19 @@ class OrgaController extends Controller
         // $reservationRequest = [];
         // $myEvents = Event::where('user_id', Auth::user()->id)->get();
         $myEvents = Event::where('user_id', Auth::user()->id)
-        ->with('Reservation.User')
-        ->get();
+            ->with('Reservation.User')
+            ->get();
+        // $reservations = Event::where('user_id', Auth::user()->id)
+        //     ->whereHas('Reservation', function ($query) {
+        //         $query->where('status', 'Being processed');
+        //     })
+        //     ->with('Reservation.User')
+        //     ->get();
         // return response()->json($myEvents);
         // dd($myEvents);
         // foreach ($myEvents as $event)
         // {
-            
+
         //     $reservationRequest[$event->id] = Reservation::where('event_id', $event->id)->where('status', 'Being processed')->get();
         //     dd($reservationRequest);
         // }

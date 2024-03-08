@@ -6,6 +6,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\OrgaController;
+use App\Http\Controllers\TicketController;
 
 
 /*
@@ -43,6 +44,13 @@ Route::post('/reserve/{eventId}/{plan}' , [ReservationController::class , 'store
 Route::post('/event/approve/{id}' , [AdminController::class , 'approveEvent'])->name('approveEvent');
 Route::post('/event/reject/{id}' , [AdminController::class , 'rejectEvent'])->name('rejectEvent');
 Route::post('/event/restrict/{id}' , [AdminController::class , 'restrictUser'])->name('restrict');
+
+Route::get('/ticket/create/{id}' , [TicketController::class , 'createTicket'])->name('createTicket');
+
+
+Route::get('/tickets', [TicketController::class, 'index'])->name('tickets');
+
+
 
 
 

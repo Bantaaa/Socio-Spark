@@ -56,7 +56,7 @@
     <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
         <div class="p-6">
             <a href="index.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Organizer</a>
-            <form action="{{ route('create') }}" method="post">
+            <form action="{{ route('create') }}" method="get">
                 <button type="submit" class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
                     <i class="fas fa-plus mr-3"></i> New Event
                 </button>
@@ -181,7 +181,7 @@
 
                 <div class="w-full mt-6">
                     <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i> Event requests
+                        <i class="fas fa-list mr-3"></i> My Events
                     </p>
                     <div class="bg-white overflow-auto">
                         <table class="min-w-full bg-white">
@@ -198,7 +198,7 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-700">
-                                @foreach($myEvents as $event)
+                                @forelse($myEvents as $event)
                                 <tr>
                                     <td class="w-1/6 text-left py-3 px-4">{{ $event->title }}</td>
                                     <td class="w-2/6 text-left py-3 px-4">{{ $event->description }}</td>
@@ -226,7 +226,6 @@
                                         @elseif($event->validated == 1)
                                         <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full">
                                             <i class="fas fa-check"></i> <!-- Green checkmark icon -->
-
                                         </button>
                                         @elseif($event->validated == 3)
                                         <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full">
@@ -236,13 +235,13 @@
                                     </td>
                                     <td class="w-1/6 text-center py-3 px-4">
                                         <div class="flex">
-                                            <form action="{{ route('approveEvent', $event->id) }}" method="POST">
+                                            <form action="#" method="POST">
                                                 @csrf
                                                 <button type="submit" class="border-none bg-transparent p-0">
                                                     <i class="fas fa-sync-alt text-blue-500 hover:text-blue-600 cursor-pointer"></i>
                                                 </button>
                                             </form>
-                                            <form action="{{ route('rejectEvent', $event->id) }}" method="POST">
+                                            <form action="#" method="POST">
                                                 @csrf
                                                 <button type="submit" class="border-none bg-transparent p-0 ml-4">
                                                     <i class="fas fa-times text-red-500 hover:text-red-600 cursor-pointer"></i>
@@ -251,14 +250,21 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                <tr>
+                                    <td colspan="5" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                        No events have been added yet.
+                                    </td>
+                                </tr>
+                                @endforelse
+
                                 <!-- Add more rows for other events as needed -->
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                
+
 
                 @foreach($myEvents as $event)
                 <div class="w-full mt-12">
@@ -278,7 +284,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($event->reservation as $reservation)
+
+                                @forelse($event->reservation as $reservation)
                                 <tr>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <div class="flex items-center">
@@ -307,12 +314,33 @@
                                         </button>
                                         @endif
                                     </td>
+                                    @if($reservation->status == 'Reserved')
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <span class="text-green-500"><i class="fas fa-check"></i></span>
-                                        <span class="text-red-500 ml-3"><i class="fas fa-times"></i></span>
+                                        <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full">
+                                            <i class="fas fa-check"></i> <!-- Green checkmark icon -->
+                                        </button>
+                                    </td>
+                                    @elseif($reservation->status == 'Being processed')
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <a href="{{ route('createTicket', ['id' => $reservation->id]) }}" class="text-green-500">
+                                            <i class="fas fa-check"></i>
+                                        </a>
+                                        <a href="#" class="text-red-500 ml-3">
+                                            <i class="fas fa-times"></i>
+                                        </a>
                                     </td>
                                 </tr>
-                                @endforeach
+                                
+                                @endif
+                                @empty
+                                <!-- No reservations message -->
+                                <tr>
+                                    <td colspan="5" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                        No reservations have been made yet.
+                                    </td>
+                                </tr>
+                                @endforelse
+
                             </tbody>
                         </table>
                     </div>
@@ -320,9 +348,8 @@
                 @endforeach
             </main>
 
-            <footer class="w-full bg-white text-right p-4">
-                Built by <a target="_blank" href="https://davidgrzyb.com" class="underline">David Grzyb</a>.
-            </footer>
+            <!-- <footer class="w-full bg-white text-right p-4">
+            </footer> -->
         </div>
 
     </div>

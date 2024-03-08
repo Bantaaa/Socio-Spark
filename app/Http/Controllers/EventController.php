@@ -29,7 +29,6 @@ class EventController extends Controller
         {
             $currentUser = User::where('id', session('user_id'))->first();
             $myEvents = Event::where('user_id', Auth::user()->id)->get();
-            return view('home', compact('events', 'currentUser','myEvents'));
         }
         // dd($currentUser->image);
         return view('home', compact('events', 'currentUser', 'myEvents'));

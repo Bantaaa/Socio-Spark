@@ -72,9 +72,11 @@
             <img src="{{ asset('images/profile/'.$currentUser->image) }}" alt="Profile Picture" class="h-20 w-20 rounded-full mb-4">
             <h3 class="text-2xl font-semibold">{{ session('name') }}</h3>
             <div class="mt-4">
-                <button class="bg-purple-500 text-white font-semibold px-4 py-2 rounded transition-colors duration-300 hover:bg-purple-700">
-                    <i class="fas fa-ticket-alt mr-2"></i>Tickets
-                </button>
+                <form action="{{ route('tickets') }}">
+                    <button class="bg-purple-500 text-white font-semibold px-4 py-2 rounded transition-colors duration-300 hover:bg-purple-700">
+                        <i class="fas fa-ticket-alt mr-2"></i>Tickets
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -92,7 +94,7 @@
         <div class="w-full bg-white shadow flex flex-col items-center my-4 p-6">
             <p class="text-xl font-semibold pb-5">Other events</p>
             <ul class="w-full">
-                @foreach ($events as $event)
+                @forelse ($events as $event)
                 <li class="flex items-center justify-between py-2">
                     <div class="flex items-center">
                         <img src="{{ asset('images/'.$event->image) }}" alt="Event 1" class="h-12 w-12 rounded-full">
@@ -100,7 +102,11 @@
                     </div>
                     <a href="{{ route('singleEvent', ['id' => $event->id]) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">View</a>
                 </li>
-                @endforeach
+                @empty
+                <li class="flex items-center justify-center py-2">
+                    <p class="text-gray-500">No events found</p>
+                </li>
+                @endforelse
                 <!-- Add more events here -->
             </ul>
         </div>
@@ -110,7 +116,7 @@
             <p class="text-xl font-semibold pb-5">My events status</p>
             <ul class="w-full">
 
-                @foreach ($myEvents as $eventx)
+                @forelse ($myEvents as $eventx)
                 @if($eventx->validated == 0)
                 <li class="flex items-center justify-between py-2">
                     <div class="flex items-center">
@@ -151,14 +157,19 @@
                     </div>
                 </li>
                 @endif
-                @endforeach
+                @empty
+                <li class="flex items-center justify-center py-2">
+                    <p class="text-gray-500">No events found</p>
+                </li>
+                @endforelse
 
                 <!-- Add more events here -->
             </ul>
             @endif
         </div>
+    </aside>
 
-        <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
 
 
 
