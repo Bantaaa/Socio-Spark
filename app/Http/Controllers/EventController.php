@@ -18,7 +18,7 @@ class EventController extends Controller
     {
 
         // $users = User::all();
-        $events = Event::where('validated', 1)->get();
+        $events = Event::where('validated', 1)->paginate(1);
 
         // dd($myEvents);
         // $canceledEvents = Event::where('user_id', Auth::user()->id)->where('validated', 3)->get();

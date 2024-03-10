@@ -6,38 +6,38 @@
 <div class="container mx-auto flex flex-wrap py-6 test">
 
     <!-- Posts Section -->
-        <form id="searchForm" class="w-full md:w-2/3 flex items-center bg-white rounded-md shadow-md overflow-hidden mb-4">
-            <input id="searchInput" name="query" type="text" class="w-full px-4 py-2 focus:outline-none" placeholder="Search...">
-            <button type="submit" class="px-4 py-2 bg-blue-500 text-white">Search</button>
-        </form>
-        <script>
-    $(document).ready(function() {
-        $('#searchForm').submit(function(e) {
-            e.preventDefault();
-            var keyword = $('#searchInput').val();
+    <form id="searchForm" class="w-full md:w-2/3 flex items-center bg-white rounded-md shadow-md overflow-hidden mb-4">
+        <input id="searchInput" name="query" type="text" class="w-full px-4 py-2 focus:outline-none" placeholder="Search...">
+        <button type="submit" class="px-4 py-2 bg-blue-500 text-white">Search</button>
+    </form>
+    <script>
+        $(document).ready(function() {
+            $('#searchForm').submit(function(e) {
+                e.preventDefault();
+                var keyword = $('#searchInput').val();
 
-            $.ajax({
-                type: 'GET',
-                url: '/search/events',
-                data: {
-                    title_s: keyword
-                },
-                success: function(data) {
-                    $('#eventList').empty();
-                    console.log(data);
-                    data.forEach(function(user) {
-                        var listItem =
-                        $('#eventList').append(listItem);
-                    });
-                },
-                error: function(error) {
-                    console.error("Error during search:", error);
-                }
-                
+                $.ajax({
+                    type: 'GET',
+                    url: '/search/events',
+                    data: {
+                        title_s: keyword
+                    },
+                    success: function(data) {
+                        $('#eventList').empty();
+                        console.log(data);
+                        data.forEach(function(user) {
+                            var listItem =
+                                $('#eventList').append(listItem);
+                        });
+                    },
+                    error: function(error) {
+                        console.error("Error during search:", error);
+                    }
+
+                });
             });
         });
-    });
-</script>
+    </script>
     <section class="w-full md:w-2/3 flex flex-col items-center px-3 ">
 
 
@@ -48,40 +48,40 @@
         <div class="grid grid-cols-3 gap-4">
             @forelse ($events as $event)
             <ul id="eventList">
-            <div class="bg-white rounded-lg shadow-md relative">
-                <div class="relative">
-                    <img src="{{ asset('images/' . $event->image) }}" alt="{{ $event->title }}" class="w-full h-48 object-fit rounded-t-lg">
-                    <div class="absolute bottom-0 left-0 bg-black bg-opacity-50 text-white p-2">
-                        <h5 class="text-lg font-bold">{{ $event->title }}</h5>
+                <div class="bg-white rounded-lg shadow-md relative">
+                    <div class="relative">
+                        <img src="{{ asset('images/' . $event->image) }}" alt="{{ $event->title }}" class="w-full h-48 object-fit rounded-t-lg">
+                        <div class="absolute bottom-0 left-0 bg-black bg-opacity-50 text-white p-2">
+                            <h5 class="text-lg font-bold">{{ $event->title }}</h5>
+                        </div>
                     </div>
-                </div>
-                <div class="p-4">
-                    <p class="text-gray-700">Quantity: {{ $event->quantity }}</p>
-                    @if(session('user_id'))
-                    <div class="flex justify-center mt-4">
-                        <a href="{{ route('singleEvent', ['id' => $event->id]) }}" class="bg-custom-lime hover:bg-custom-lime-dark text-white font-bold py-2 px-4 rounded mr-2">
-                            <i class="fas fa-eye mr-1"></i> View
-                        </a>
-                        @if(session('user_id') == $event->user_id)
-                        <form action="{{ route('destroy', ['id' => $event->id]) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
-                                Delete
-                            </button>
-                        </form>
+                    <div class="p-4">
+                        <p class="text-gray-700">Quantity: {{ $event->quantity }}</p>
+                        @if(session('user_id'))
+                        <div class="flex justify-center mt-4">
+                            <a href="{{ route('singleEvent', ['id' => $event->id]) }}" class="bg-custom-lime hover:bg-custom-lime-dark text-white font-bold py-2 px-4 rounded mr-2">
+                                <i class="fas fa-eye mr-1"></i> View
+                            </a>
+                            @if(session('user_id') == $event->user_id)
+                            <form action="{{ route('destroy', ['id' => $event->id]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
+                                    Delete
+                                </button>
+                            </form>
+                            @endif
+                        </div>
+                        @else
+                        <div class="flex justify-center mt-4">
+                            <a href="{{ route('login')}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+                                Show
+                            </a>
+                        </div>
                         @endif
                     </div>
-                    @else
-                    <div class="flex justify-center mt-4">
-                        <a href="{{ route('login')}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
-                            Show
-                        </a>
-                    </div>
-                    @endif
                 </div>
-            </div>
-        </ul>
+            </ul>
             @empty
             <div class="bg-white rounded-lg shadow-md p-4">
                 <p class="text-gray-700">No events available</p>
@@ -89,16 +89,12 @@
             @endforelse
         </div>
 
-        <div class="d-flex justify-content-center mt-3">
-            <!-- links -->
-        </div>
+        
 
 
         <!-- Pagination -->
         <div class="flex items-center py-8">
-            <a href="#" class="h-10 w-10 bg-blue-800 hover:bg-blue-600 font-semibold text-white text-sm flex items-center justify-center">1</a>
-            <a href="#" class="h-10 w-10 font-semibold text-gray-800 hover:bg-blue-600 hover:text-white text-sm flex items-center justify-center">2</a>
-            <a href="#" class="h-10 w-10 font-semibold text-gray-800 hover:text-gray-900 text-sm flex items-center justify-center ml-3">Next <i class="fas fa-arrow-right ml-2"></i></a>
+        {{ $events->links() }}
         </div>
 
     </section>
