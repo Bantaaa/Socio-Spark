@@ -11,13 +11,12 @@
         <!-- TICKET FORM -->
 
         <div class="grid grid-cols-3 gap-4">
-            @foreach ($reservations as $reservation)
-            @forelse ($ticket as $item)
+            @forelse ($reservations as $reservation)
             <div class="bg-white rounded-lg shadow-md relative">
                 <div class="relative">
                     <img src="{{ asset('images/' . $item[$reservation->id]->User->image) }}" alt="{{ $ticket->event->title }}" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="absolute bottom-0 left-0 bg-black bg-opacity-50 text-white p-2">
-                        <h5 class="text-lg font-bold">{{ $ticket->event->title }}</h5>
+                        <h5 class="text-lg font-bold">{{ $reservation->event->title }}</h5>
                     </div>
                 </div>
                 <div class="p-4">
@@ -44,7 +43,6 @@
                 <p class="text-gray-700">No tickets available</p>
             </div>
             @endforelse
-            @endforeach
         </div>
 
         <div class="d-flex justify-content-center mt-3">

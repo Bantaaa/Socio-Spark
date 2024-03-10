@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\User;
+use App\Models\Category;
 
 class AdminController extends Controller
 {
@@ -14,6 +15,7 @@ class AdminController extends Controller
     public function index()
     {
         //
+        $categories = Category::all();
         $users = User::all();
         $nonApprovedEvents = Event::where('validated', 0)->get();
         $approvedEvents = Event::where('validated', 1)->get();
@@ -23,7 +25,7 @@ class AdminController extends Controller
 
         // dd($events);
 
-        return view('dashboard', compact('approvedEvents', 'nonApprovedEvents','canceledEvents', 'currentUser', 'users'));
+        return view('dashboard', compact('approvedEvents', 'nonApprovedEvents','canceledEvents', 'currentUser', 'users', 'categories'));
     }
 
     /**
@@ -55,6 +57,7 @@ class AdminController extends Controller
     {
         //
         $user = User::find($id);
+        $user->role_id = 4;
         $user->active = 0;
         $user->save();
 
@@ -65,6 +68,7 @@ class AdminController extends Controller
         //
         $user = User::find($id);
         $user->active = 1;
+        $user->role_id = 3;
         $user->save();
 
         return redirect()->back();

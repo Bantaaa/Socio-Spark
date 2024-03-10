@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
-use App\Models\Folows;
-use App\Models\Likes;
-use App\Models\Message;
-use App\Models\Post;
+
 use App\Models\User;
-use App\Models\Reservation;
+
 
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -98,28 +95,59 @@ class AuthController extends Controller
         }
     }
 
-    // public function showSearch() {
-    //     return view('posts.search');
-    // }
 
-    // public function searchUsers(Request $request)
-    // {
-    //     $keyword = $request->input('title_s');
+    public function resetPasswordPage(Request $request){
+        $token = $request->query('token');
+        $email = $request->query('email');
+        return view('resetPassword', [
+            'token' => $token,
+            'email' => $email
+        ]);
+    }
 
-    //     if ($keyword === '') {
-    //         // If the search keyword is empty, return all users or handle as needed
-    //         $users = User::all();
-    //     } else {
-    //         // Search for users with names containing the keyword
-    //         $users = User::where('Fname', 'like', '%' . $keyword . '%')->get();
-    //     }
+    public function forgetPasswordPage(){
+        return view('forgotPassword');
+    }
+    public function sendResetLink(Request $request)
+    {
+        // dd("asdk");
+        $request->validate(['email' => 'required|email|exists:users,email']);
 
-    //     // dd($users);
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
 
-    //     // Pass the users data to the view
-    //     return response()->json($users);
-    // }
+        return $status === Password::RESET_LINK_SENT
+                ? back()->with('status', __($status))
+            : back()->withErrors(['email' => __($status)]);
+    }
 
+
+    public function reset(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:8',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user) use ($request) {
+                $user->forceFill([
+                    'password' => Hash::make($request->password),
+                ])->save();
+            }
+        );
+
+        return $status == Password::PASSWORD_RESET
+            ? redirect()->route('login')->with('status', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
+    }
+
+    
+
+    
 
     public function logout()
     {

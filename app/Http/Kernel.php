@@ -43,6 +43,19 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        'Admin' => [
+            \App\Http\Middleware\AdminMiddleware::class,
+        ],
+        'Organizer' => [
+            \App\Http\Middleware\OrganizerMiddleware::class,
+        ],
+        'User' => [
+            \App\Http\Middleware\UserMiddleware::class,
+        ],
+        'event.owner' => [
+            \App\Http\Middleware\VerifyEventOwner::class,
+        ]
     ];
 
     /**

@@ -36,6 +36,7 @@ class ReservationController extends Controller
     public function store(int $eventId, string $plan)
     {
         //
+        $event = Event::where('id', $eventId)->first();
         $auto = Event::where('id', $eventId)->value('autoTicket');
         $reserved = Reservation::where('event_id', $eventId)->where('user_id', Auth::id())->first();
         if($plan == 'vip')
@@ -49,7 +50,7 @@ class ReservationController extends Controller
 
 
 
-        if(!$reserved && !$auto)
+        if(!$reserved && !$auto && $event->validated == 1 && $event->quantity > 0)
         {
             $reservation = Reservation::create([
                 'user_id' => Auth::id(),
@@ -58,10 +59,8 @@ class ReservationController extends Controller
                 'plan' => $plan,
             ]);
             // dd($reservation);
-            Event::where('id', $eventId)->decrement('quantity', 1);
-
         }
-        elseif(!$reserved && $auto)
+        elseif(!$reserved && $auto && $event->validated == 1)
         {
             $reservation = Reservation::create([
                 'user_id' => Auth::id(),
@@ -71,7 +70,16 @@ class ReservationController extends Controller
             ]);
             
             // dd($reservation);
-            Event::where('id', $eventId)->decrement('quantity', 1);
+
+            $ticket = Ticket::create([
+
+                'reservation_id' => $reservation->id,
+                'plan' => $reservation->plan,
+            ]);
+            if($ticket)
+            {
+                Event::where('id', $eventId)->decrement('quantity', 1);
+            }
 
         }
 
@@ -81,9 +89,15 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function generateTicket(string $id)
+    public function rejectReservation(string $id)
     {
         //
+        $reservation = Reservation::where('id', $id)->first();
+        if ($reservation) {
+            $reservation->status = 'Rejected';
+            $reservation->save();
+        }
+        return redirect()->back();
 
     }
 

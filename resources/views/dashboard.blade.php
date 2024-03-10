@@ -174,6 +174,75 @@
 
                 <div class="w-full mt-6">
                     <p class="text-xl pb-3 flex items-center">
+                        <i class="fas fa-list mr-3"></i> Categories
+                    </p>
+                    <form id="categoryForm" action="{{ route('categoryUpdate', ['id' => 'idd']) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="flex">
+                            <input id="categoryInput" type="text" name="name" value="" class="rounded-l-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500 border">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white rounded-r-lg px-4 py-2">
+                                <i class="fas fa-save"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="bg-white overflow-auto">
+                        <table class="min-w-full bg-white">
+                            <thead class="bg-gray-800 text-white">
+                                <tr>
+                                    <th class="w-1/6 text-left py-3 px-4 uppercase font-semibold text-sm">Category</th>
+                                    <th class="w-1/6 text-left py-3 px-4 uppercase font-semibold text-sm">Events</th>
+                                    <th class="w-1/6 text-center py-3 px-4 uppercase font-semibold text-sm">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-700">
+                                @forelse($categories as $category)
+                                <tr>
+                                    <td class="w-1/6 text-left py-3 px-4">{{ $category->name }}</td>
+                                    <td class="w-1/6 text-left py-3 px-4">69</td>
+                                    <td class="w-1/6 text-center py-3 px-4">
+                                        <div class="flex justify-center">
+                                            <button type="button" class="border-none bg-transparent p-0" onclick="syncCategory('{{ $category->id }}', '{{ $category->name }}')">
+                                                <i class="fas fa-sync-alt text-blue-500 hover:text-blue-600 cursor-pointer"></i>
+                                            </button>
+                                            <form action="{{ route('categoryDelete', ['id'=>$category->id]) }}" method="POST">
+                                                @method('delete')
+                                                @csrf
+                                                <button type="submit" class="border-none bg-transparent p-0 ml-4">
+                                                    <i class="fas fa-times text-red-500 hover:text-red-600 cursor-pointer"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="3" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                        No categories have been added yet.
+                                    </td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <script>
+                        function syncCategory(categoryId, categoryName) {
+                            var categoryInput = document.getElementById('categoryInput');
+                            var categoryForm = document.getElementById('categoryForm');
+                            var categoryAction = "{{ route('categoryUpdate', ['id' => 'idd']) }}";
+
+                            categoryInput.value = categoryName;
+                            categoryForm.action = categoryAction.replace('idd', categoryId);
+                        }
+                    </script>
+
+
+                </div>
+
+                <div class="w-full mt-6">
+                    <p class="text-xl pb-3 flex items-center">
                         <i class="fas fa-list mr-3"></i> Event requests
                     </p>
                     <div class="bg-white overflow-auto">
@@ -195,7 +264,7 @@
                                     <td class="w-1/6 text-left py-3 px-4">{{ $event->title }}</td>
                                     <td class="w-2/6 text-left py-3 px-4">{{ $event->description }}</td>
                                     <td class="w-1/6 text-left py-3 px-4">{{ $event->place }}</td>
-                                    <td class="w-1/12 text-left py-3 px-4">{{ $event->category }}</td>
+                                    <td class="w-1/12 text-left py-3 px-4">{{ $event->Category->name }}</td>
                                     <td class="w-1/12 text-left py-3 px-4">{{ $event->quantity }}</td>
                                     @if( $event->autoTicket == 1)
                                     <td class="w-1/6 text-left py-3 px-4">
@@ -265,7 +334,7 @@
                                     <td class="w-1/6 text-left py-3 px-4">{{ $event->title }}</td>
                                     <td class="w-2/6 text-left py-3 px-4">{{ $event->description }}</td>
                                     <td class="w-1/6 text-left py-3 px-4">{{ $event->place }}</td>
-                                    <td class="w-1/12 text-left py-3 px-4">{{ $event->category }}</td>
+                                    <td class="w-1/12 text-left py-3 px-4">{{ $event->Category->name }}</td>
                                     <td class="w-1/12 text-left py-3 px-4">{{ $event->quantity }}</td>
                                     @if( $event->autoTicket == 1)
                                     <td class="w-1/6 text-left py-3 px-4">
@@ -329,7 +398,7 @@
                                     <td class="w-1/6 text-left py-3 px-4">{{ $event->title }}</td>
                                     <td class="w-2/6 text-left py-3 px-4">{{ $event->description }}</td>
                                     <td class="w-1/6 text-left py-3 px-4">{{ $event->place }}</td>
-                                    <td class="w-1/12 text-left py-3 px-4">{{ $event->category }}</td>
+                                    <td class="w-1/12 text-left py-3 px-4">{{ $event->Category->name }}</td>
                                     <td class="w-1/12 text-left py-3 px-4">{{ $event->quantity }}</td>
                                     @if( $event->autoTicket == 1)
                                     <td class="w-1/6 text-left py-3 px-4">
@@ -422,7 +491,7 @@
 
                 <div class="w-full mt-12">
                     <p class="text-xl pb-3 flex items-center">
-                    <i class="fas fa-user mr-3"></i> Users list
+                        <i class="fas fa-user mr-3"></i> Users list
                     </p>
                     <div class="bg-white overflow-auto">
                         <table class="min-w-full leading-normal">
@@ -462,11 +531,13 @@
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         @if($user->role_id == 1)
-                                        <p class="text-gray-900 whitespace-no-wrap">User</p>
+                                        <p class="text-gray-900 whitespace-no-wrap">Admin</p>
                                         @elseif($user->role_id == 2)
                                         <p class="text-gray-900 whitespace-no-wrap">Organizer</p>
                                         @elseif($user->role_id == 3)
-                                        <p class="text-gray-900 whitespace-no-wrap">Admin</p>
+                                        <p class="text-gray-900 whitespace-no-wrap">User</p>
+                                        @elseif($user->role_id == 4)
+                                        <p class="text-gray-900 whitespace-no-wrap">Banned</p>
                                         @endif
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -516,7 +587,7 @@
                             </tbody>
                         </table>
                     </div>
-                    
+
                 </div>
             </main>
 

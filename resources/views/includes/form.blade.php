@@ -32,25 +32,13 @@
           <input name="quantity" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="quantity" type="number" placeholder="Quantity">
         </div>
 
-        <!-- <div class="mb-4">
-          <input type="hidden" name="user_id" value="{{ session('user_id') }}">
-          <input type="submit" value="Submit">
-        </div> -->
-        <!-- test -->
-
-        <!-- <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="place">Category</label>
-          <input name="category" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="place" type="text" placeholder="Category">
-        </div> -->
-
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="category">Category</label>
-          <select name="category" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="category">
+          <select name="category_id" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="category">
             <option value="">Select a category</option>
-            <option value="category1">Category 1</option>
-            <option value="category2">Category 2</option>
-            <option value="category3">Category 3</option>
-            Add more options for categories as needed
+            @foreach($categories as $category)
+            <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
           </select>
         </div>
 

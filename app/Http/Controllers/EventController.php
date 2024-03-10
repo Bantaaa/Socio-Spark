@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Reservation;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
@@ -15,18 +16,17 @@ class EventController extends Controller
      */
     public function index()
     {
-        
+
         // $users = User::all();
-        $events = Event::where('validated' , 1)->get();
-        
+        $events = Event::where('validated', 1)->get();
+
         // dd($myEvents);
         // $canceledEvents = Event::where('user_id', Auth::user()->id)->where('validated', 3)->get();
         // $pendingEvents = Event::where('user_id', Auth::user()->id)->where('validated', 0)->get();
-        
+
         $currentUser = 0;
         $myEvents = 0;
-        if(Auth::user())
-        {
+        if (Auth::user()) {
             $currentUser = User::where('id', session('user_id'))->first();
             $myEvents = Event::where('user_id', Auth::user()->id)->get();
         }
@@ -40,7 +40,7 @@ class EventController extends Controller
         $reserved = Reservation::where('event_id', $id)->where('user_id', Auth::id())->first();
         // dd($plan);
 
-        $events = Event::where('validated' , 1)->get();
+        $events = Event::where('validated', 1)->get();
         $event = Event::where('id', $id)->first();
         // dd($event);
         $currentUser = User::where('id', session('user_id'))->first();
@@ -48,7 +48,6 @@ class EventController extends Controller
         $left = Event::where('id', $id)->value('quantity');
 
         return view('event', compact('event', 'events', 'currentUser', 'reserved', 'plan', 'left'));
-
     }
 
     /**
@@ -57,7 +56,8 @@ class EventController extends Controller
     public function create()
     {
         //
-        return view('includes.form');
+        $categories = Category::all();
+        return view('includes.form', compact('categories'));
     }
 
     /**
@@ -84,6 +84,7 @@ class EventController extends Controller
         // dd($acceptance);
 
 
+        // dd($request->input('category_id'));
         $event = Event::create([
             'user_id' => Auth::user()->id,
             'title' => $request->input('title'),
@@ -93,7 +94,7 @@ class EventController extends Controller
             'date' => $request->input('date'),
             'place' => $request->input('place'),
             'quantity' => $request->input('quantity'),
-            'category' => $request->input('category'),
+            'category_id' => $request->input('category_id'),
         ]);
 
         // dd($event);
@@ -118,20 +119,62 @@ class EventController extends Controller
         return view('orga');
     }
 
+    public function searchEvents(Request $request)
+    {
+        $keyword = $request->input('title_s');
+
+        if ($keyword === '') {
+            // If the search keyword is empty, return all events or handle as needed
+            $users = User::all();
+        } else {
+            // Search for users with names containing the keyword
+            $events = Event::where('title', 'like', '%' . $keyword . '%')->get();
+        }
+
+        // dd($users);
+
+        return response()->json($events);
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(int $id)
     {
-        //
+        $categories = Category::all();
+        $event = Event::findOrFail($id);
+        return view('includes.update', compact('event', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updateEvent(Request $request, string $id)
     {
         //
+        $destinationPath = null;
+
+        
+        $acceptance = 0;
+
+        if ($request->input('acceptance') == 'on') {
+            $acceptance = 1;
+        }
+        // dd($request->input('category_id'));
+        $event = Event::findOrFail($id);
+        $event->update([
+            'user_id' => Auth::user()->id,
+            'title' => $request->input('title'),
+            'autoTicket' => $acceptance,
+            'description' => $request->input('description'),
+            'date' => $request->input('date'),
+            'place' => $request->input('place'),
+            'quantity' => $request->input('quantity'),
+            'category_id' => $request->input('category_id'),
+        ]);
+
+        return redirect()->route('orga');
     }
 
     /**

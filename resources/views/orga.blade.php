@@ -188,6 +188,7 @@
                             <thead class="bg-gray-800 text-white">
                                 <tr>
                                     <th class="w-1/6 text-left py-3 px-4 uppercase font-semibold text-sm">Title</th>
+                                    <th class="w-1/6 text-left py-3 px-4 uppercase font-semibold text-sm">Image</th> <!-- Moved image column here -->
                                     <th class="w-2/6 text-left py-3 px-4 uppercase font-semibold text-sm">Description</th>
                                     <th class="w-1/6 text-left py-3 px-4 uppercase font-semibold text-sm">Place</th>
                                     <th class="w-1/12 text-left py-3 px-4 uppercase font-semibold text-sm">Category</th>
@@ -201,9 +202,12 @@
                                 @forelse($myEvents as $event)
                                 <tr>
                                     <td class="w-1/6 text-left py-3 px-4">{{ $event->title }}</td>
+                                    <td class="w-1/6 text-center py-3 px-4">
+                                        <img src="{{ asset('images/' . $event->image) }}" alt="Event Image" class="w-24 h-24 object-contain">
+                                    </td>
                                     <td class="w-2/6 text-left py-3 px-4">{{ $event->description }}</td>
                                     <td class="w-1/6 text-left py-3 px-4">{{ $event->place }}</td>
-                                    <td class="w-1/12 text-left py-3 px-4">{{ $event->category }}</td>
+                                    <td class="w-1/12 text-left py-3 px-4">{{ $event->Category->name }}</td>
                                     <td class="w-1/12 text-left py-3 px-4">{{ $event->quantity }}</td>
                                     @if( $event->autoTicket == 1)
                                     <td class="w-1/6 text-left py-3 px-4">
@@ -235,7 +239,7 @@
                                     </td>
                                     <td class="w-1/6 text-center py-3 px-4">
                                         <div class="flex">
-                                            <form action="#" method="POST">
+                                        <form action="{{ route('edit', ['id' => $event->id]) }}" method="get">
                                                 @csrf
                                                 <button type="submit" class="border-none bg-transparent p-0">
                                                     <i class="fas fa-sync-alt text-blue-500 hover:text-blue-600 cursor-pointer"></i>
@@ -325,12 +329,12 @@
                                         <a href="{{ route('createTicket', ['id' => $reservation->id]) }}" class="text-green-500">
                                             <i class="fas fa-check"></i>
                                         </a>
-                                        <a href="#" class="text-red-500 ml-3">
+                                        <a href="{{ route('rejectReservation', ['id' => $reservation->id]) }}" class="text-red-500 ml-3">
                                             <i class="fas fa-times"></i>
                                         </a>
                                     </td>
                                 </tr>
-                                
+
                                 @endif
                                 @empty
                                 <!-- No reservations message -->

@@ -18,33 +18,44 @@ class TicketController extends Controller
     {
         //
         $user = Auth::user()->id;
-        $events = Event::where('validated' , 1)->get();
-        $reservations = Reservation::where('user_id', $user)->where('status', 'Reserved')->get();
-        $ticket=[];
-        foreach ($reservations as $reservation)
-        {
-            Ticket::create([
+        $events = Event::where('validated', 1)->get();
+        $reservations = Reservation::where('user_id', $user)->where('status', 'Reserved')
+        ->with('Reservation.Event')
+        ->get();
+        // dd($reservations);
 
-                'reservation_id' => $reservation->id,
-                'plan' => $reservation->plan,
-             ]);
-            $ticket[$reservation->id] = Ticket::where('reservation_id', $reservation->id)->with('User')->first();
+        $reservations = Reservation::where('user_id', Auth::user()->id)
+            ->with('Ticket')
+            ->with('User')
+            ->get();
+        // foreach ($reservations as $reservation) {
+        //     Ticket::create([
+
+        //         'reservation_id' => $reservation->id,
+        //         'plan' => $reservation->plan,
+        //     ]);
+        // }
+
+        // return response()->json($reservations);
+
+        // dd($reservations);
+
+        //     $ticket[$reservation->id] = Ticket::where('reservation_id', $reservation->id)->with('User')->first();
             // dd($ticket[$reservation->id]);
 
-        }
+        // }
         // dd($ticket);
 
-        
+
         $currentUser = 0;
         $myEvents = 0;
-        if(Auth::user())
-        {
+        if (Auth::user()) {
             $currentUser = User::where('id', session('user_id'))->first();
             $myEvents = Event::where('user_id', Auth::user()->id)->get();
-            return view('tickets', compact('events', 'ticket','reservations', 'currentUser','myEvents'));
+            return view('tickets', compact('events', 'ticket', 'reservations', 'currentUser', 'myEvents'));
         }
         // dd($currentUser->image);
-        return view('tickets',compact('events', 'currentUser', 'myEvents'));
+        return view('tickets', compact('events', 'currentUser', 'myEvents'));
     }
 
     /**
@@ -57,14 +68,17 @@ class TicketController extends Controller
         if ($reservation) {
             $reservation->status = 'Reserved';
             $reservation->save();
-            Ticket::create([
+            $ticket = Ticket::create([
                 'reservation_id' => $reservation->id,
                 'plan' => $reservation->plan,
             ]);
+            if($ticket)
+            {
+                Event::where('id', $reservation->event_id)->decrement('quantity', 1);
+
+            }
         }
         return redirect()->back();
-
-        
     }
 
     /**

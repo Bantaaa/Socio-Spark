@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     use HasFactory;
-    protected $fillable = ["user_id","title","category","autoTicket", "image", "description", "place", "quantity", "date", "date_res" , "date_rec"];
+    protected $fillable = ["user_id","title","category_id","autoTicket", "image", "description", "place", "quantity", "date", "date_res" , "date_rec"];
     
 
     public function User()
@@ -18,6 +18,11 @@ class Event extends Model
     public function Reservation()
     {
         return $this->hasMany(Reservation::class, 'event_id', 'id');
+    }
+
+    public function Category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
 

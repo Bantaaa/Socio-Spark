@@ -20,4 +20,8 @@ class Reservation extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function Ticket()
+    {
+        return $this->hasOne(Ticket::class, 'reservation_id');
+    }
 }

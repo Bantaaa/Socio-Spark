@@ -63,7 +63,7 @@
                 </div>
                 <div class="mt-4">
                     <h4 class="text-lg font-semibold">Category:</h4>
-                    <p class="text-gray-600">{{ $event->category }}</p>
+                    <p class="text-gray-600">{{ $event->Category->name }}</p>
                 </div>
             </div>
         </div>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="mt-4">
                     <h4 class="text-lg font-semibold">Category:</h4>
-                    <p class="text-gray-600">{{ $event->category }}</p>
+                    <p class="text-gray-600">{{ $event->Category->name }}</p>
                 </div>
                 <div class="mt-4">
                     <h4 class="text-lg font-semibold">VIP Benefits:</h4>
@@ -155,7 +155,7 @@
                 </div>
                 <div class="mt-4">
                     <h4 class="text-lg font-semibold">Category:</h4>
-                    <p class="text-gray-600">{{ $event->category }}</p>
+                    <p class="text-gray-600">{{ $event->Category->name }}</p>
                 </div>
 
                 @if ($reserved && $reserved->status == 'Being processed')
@@ -202,7 +202,7 @@
                 </div>
                 <div class="mt-4">
                     <h4 class="text-lg font-semibold">Category:</h4>
-                    <p class="text-gray-600">{{ $event->category }}</p>
+                    <p class="text-gray-600">{{ $event->Category->name }}</p>
                 </div>
                 <div class="mt-4">
                     <h4 class="text-lg font-semibold">VIP Benefits:</h4>
@@ -223,6 +223,12 @@
                 <div class="mt-4">
                     <button class="bg-green-500 text-white font-semibold px-4 py-2 rounded">
                         <i class="fas fa-check mr-2"></i>{{$reserved->status}}
+                    </button>
+                </div>
+                @elseif ($reserved && $reserved->status == 'Rejected')
+                <div class="mt-4">
+                    <button class="bg-red-500 text-white font-semibold px-4 py-2 rounded">
+                        <i class="fas fa-times mr-2"></i>{{$reserved->status}}
                     </button>
                 </div>
                 @endif

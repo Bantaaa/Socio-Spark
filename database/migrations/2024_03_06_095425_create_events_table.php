@@ -16,12 +16,13 @@ return new class extends Migration
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             
             $table->string('title');
 
             // $table->integer('prix');
             $table->text('description')->nullable();
-            $table->string('category')->nullable();
             $table->string('place');
             $table->integer('quantity')->default(1);
             $table->boolean('validated')->default(0);
