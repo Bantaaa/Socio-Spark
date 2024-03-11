@@ -6,11 +6,8 @@
 <div class="container mx-auto flex flex-wrap py-6 test">
 
     <!-- Posts Section -->
-    <form id="searchForm" class="w-full md:w-2/3 flex items-center bg-white rounded-md shadow-md overflow-hidden mb-4">
-        <input id="searchInput" name="query" type="text" class="w-full px-4 py-2 focus:outline-none" placeholder="Search...">
-        <button type="submit" class="px-4 py-2 bg-blue-500 text-white">Search</button>
-    </form>
-    <script>
+    
+    <!-- <script>
         $(document).ready(function() {
             $('#searchForm').submit(function(e) {
                 e.preventDefault();
@@ -37,16 +34,32 @@
                 });
             });
         });
-    </script>
+    </script> -->
     <section class="w-full md:w-2/3 flex flex-col items-center px-3 ">
-
-
+    <div class="flex flex-wrap">
+    <div class="w-full md:w-1/2 flex items-center bg-white rounded-md shadow-md overflow-hidden mb-4">
+        <form action="{{ route('search.events') }}" method="get" class="flex">
+            <input id="searchInput" name="query" type="text" class="w-full px-4 py-2 focus:outline-none" placeholder="Search...">
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white">Search</button>
+        </form>
+    </div>
+    <div class="w-full md:w-1/2 flex items-center bg-white rounded-md shadow-md overflow-hidden mb-4">
+        <form action="{{ route('search.category') }}" method="get" class="flex">
+            <select name="query" id="" class="w-full px-4 py-2 focus:outline-none">
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white">Search</button>
+        </form>
+    </div>
+</div>
         <!-- POST FORM  -->
 
 
 
         <div class="grid grid-cols-3 gap-4">
-            @forelse ($events as $event)
+            @forelse ($paginatedEvents as $event)
             <ul id="eventList">
                 <div class="bg-white rounded-lg shadow-md relative">
                     <div class="relative">
@@ -94,7 +107,7 @@
 
         <!-- Pagination -->
         <div class="flex items-center py-8">
-        {{ $events->links() }}
+        {{ $paginatedEvents->links() }}
         </div>
 
     </section>
@@ -148,8 +161,9 @@
             </ul>
         </div>
         <!-- pending events -->
+        @if($myEvents && (session('role_id') == 2 || session('role_id') == 1))
+
         <div class="w-full bg-white shadow flex flex-col items-center my-4 p-6">
-            @if($myEvents)
             <p class="text-xl font-semibold pb-5">My events status</p>
             <ul class="w-full">
 
@@ -202,8 +216,9 @@
 
                 <!-- Add more events here -->
             </ul>
-            @endif
         </div>
+        @endif
+
     </aside>
 
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->

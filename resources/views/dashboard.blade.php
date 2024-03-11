@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tailwind Admin Template</title>
+    <title>Admin Dashboard</title>
     <meta name="author" content="David Grzyb">
     <meta name="description" content="">
 
@@ -104,9 +104,16 @@
                 </button>
                 <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
                 <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
-                    <a href="#" class="block px-4 py-2 account-link hover:text-white">Account</a>
-                    <a href="#" class="block px-4 py-2 account-link hover:text-white">Support</a>
-                    <a href="{{ route('logout') }}" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
+                    <a href="{{ route('home')}}" class="block px-4 py-2 account-link hover:text-white">Home</a>
+
+                    @if(session('role_id') == 1)
+                    <a href="{{ route('admin')}}" class="block px-4 py-2 account-link hover:text-white">Admin</a>
+                    @endif
+
+                    @if(session('role_id') == 1 || session('role_id') == 2)
+                    <a href="{{ route('orga')}}" class="block px-4 py-2 account-link hover:text-white">Dashboard</a>
+                    @endif
+                    <a href="{{ route('logout')}}" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
                 </div>
             </div>
         </header>
@@ -200,7 +207,7 @@
                                 @forelse($categories as $category)
                                 <tr>
                                     <td class="w-1/6 text-left py-3 px-4">{{ $category->name }}</td>
-                                    <td class="w-1/6 text-left py-3 px-4">69</td>
+                                    <td class="w-1/6 text-left py-3 px-4">{{$category->Event->count()}}</td>
                                     <td class="w-1/6 text-center py-3 px-4">
                                         <div class="flex justify-center">
                                             <button type="button" class="border-none bg-transparent p-0" onclick="syncCategory('{{ $category->id }}', '{{ $category->name }}')">

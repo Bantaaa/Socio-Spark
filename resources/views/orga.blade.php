@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tailwind Admin Template</title>
+    <title>Organizer Dashboard</title>
     <meta name="author" content="David Grzyb">
     <meta name="description" content="">
 
@@ -63,10 +63,12 @@
             </form>
         </div>
         <nav class="text-white text-base font-semibold pt-3">
+            @if(session('role_id') == 1)
             <a href="{{ route('admin') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                 <i class="fas fa-tachometer-alt mr-3"></i>
                 Administrator
             </a>
+            @endif
             <a href="{{ route('orga') }}" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
                 <i class="fas fa-tachometer-alt mr-3"></i>
 
@@ -111,9 +113,15 @@
                 </button>
                 <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
                 <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
-                    <a href="#" class="block px-4 py-2 account-link hover:text-white">Account</a>
-                    <a href="#" class="block px-4 py-2 account-link hover:text-white">Support</a>
-                    <a href="#" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
+                    <a href="{{ route('home')}}" class="block px-4 py-2 account-link hover:text-white">Home</a>
+                    @if(session('role_id') == 1)
+                    <a href="{{ route('admin')}}" class="block px-4 py-2 account-link hover:text-white">Admin</a>
+                    @endif
+
+                    @if(session('role_id') == 1 || session('role_id') == 2)
+                    <a href="{{ route('orga')}}" class="block px-4 py-2 account-link hover:text-white">Dashboard</a>
+                    @endif
+                    <a href="{{ route('logout')}}" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
                 </div>
             </div>
         </header>
@@ -129,7 +137,7 @@
             </div>
 
             <!-- Dropdown Nav -->
-            <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
+            <!-- <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
                 <a href="index.html" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                     <i class="fas fa-tachometer-alt mr-3"></i>
                     Dashboard
@@ -169,7 +177,7 @@
                 <button class="w-full bg-white cta-btn font-semibold py-2 mt-3 rounded-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
                     <i class="fas fa-arrow-circle-up mr-3"></i> Upgrade to Pro!
                 </button>
-            </nav>
+            </nav> -->
             <!-- <button class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
                 <i class="fas fa-plus mr-3"></i> New Report
             </button> -->
@@ -239,7 +247,7 @@
                                     </td>
                                     <td class="w-1/6 text-center py-3 px-4">
                                         <div class="flex">
-                                        <form action="{{ route('edit', ['id' => $event->id]) }}" method="get">
+                                            <form action="{{ route('edit', ['id' => $event->id]) }}" method="get">
                                                 @csrf
                                                 <button type="submit" class="border-none bg-transparent p-0">
                                                     <i class="fas fa-sync-alt text-blue-500 hover:text-blue-600 cursor-pointer"></i>
@@ -332,6 +340,12 @@
                                         <a href="{{ route('rejectReservation', ['id' => $reservation->id]) }}" class="text-red-500 ml-3">
                                             <i class="fas fa-times"></i>
                                         </a>
+                                    </td>
+                                    @elseif($reservation->status == 'Rejected')
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full">
+                                            <i class="fas fa-times"></i> <!-- Red X icon -->
+                                        </button>
                                     </td>
                                 </tr>
 

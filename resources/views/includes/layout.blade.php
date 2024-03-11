@@ -110,6 +110,40 @@
       background-color: #082F49;
       /* Replace with your desired darker lime color */
     }
+
+    @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+
+    .font-family-karla {
+      font-family: karla;
+    }
+
+    .bg-sidebar {
+      background: #3d68ff;
+    }
+
+    .cta-btn {
+      color: #3d68ff;
+    }
+
+    .upgrade-btn {
+      background: #1947ee;
+    }
+
+    .upgrade-btn:hover {
+      background: #0038fd;
+    }
+
+    .active-nav-link {
+      background: #1947ee;
+    }
+
+    .nav-item:hover {
+      background: #1947ee;
+    }
+
+    .account-link:hover {
+      background: #3d68ff;
+    }
   </style>
 
 </head>
@@ -161,23 +195,45 @@
         </a>
         @endif
         @if(session('name'))
-        <span class="pr-3">{{ session('name') }}</span>
-        <a class="inline-block no-underline hover:text-black" href="#">
-          <svg class="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <circle fill="none" cx="12" cy="7" r="3" />
-            <path d="M12 2C9.243 2 7 4.243 7 7s2.243 5 5 5 5-2.243 5-5S14.757 2 12 2zM12 10c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3S13.654 10 12 10zM21 21v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h2v-1c0-2.757 2.243-5 5-5h4c2.757 0 5 2.243 5 5v1H21z" />
-          </svg>
-        </a>
+        <div x-data="{ isOpen: false }" class="relative flex justify-end">
+          @if(session('role_id'))
+          <button @click="isOpen = !isOpen" class="w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
+            <img src="{{ asset('images/profile/'.$currentUser->image) }}">
+          </button>
+          @elseif(!session('role_id'))
+          <button @click="isOpen = !isOpen" class="w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
+            <img src="{{ asset('images/profile/2919906.png') }}">
+          </button>
+          @endif
+          <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
+          <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
+            <a href="{{ route('home')}}" class="block px-4 py-2 account-link hover:text-white">Home</a>
+
+            @if(session('role_id') == 1)
+            <a href="{{ route('admin')}}" class="block px-4 py-2 account-link hover:text-white">Admin</a>
+            @endif
+
+            @if(session('role_id') == 1 || session('role_id') == 2)
+            <a href="{{ route('orga')}}" class="block px-4 py-2 account-link hover:text-white">Dashboard</a>
+            @endif
+            <a href="{{ route('logout')}}" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
+          </div>
+        </div>
         @endif
       </div>
-
-      <a class="pl-3 inline-block no-underline hover:text-black" href="{{ route('logout') }}">
-        <svg class="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <path d="M9.375 8C9.375 8.70219 9.375 9.05329 9.54351 9.3055C9.61648 9.41471 9.71025 9.50848 9.81946 9.58145C10.0717 9.74996 10.4228 9.74996 11.125 9.74996L15.375 9.74996C16.6176 9.74996 17.625 10.7573 17.625 12C17.625 13.2426 16.6176 14.25 15.375 14.25L11.125 14.25C10.4228 14.25 10.0716 14.25 9.8194 14.4185C9.71023 14.4915 9.6165 14.5852 9.54355 14.6944C9.375 14.9466 9.375 15.2977 9.375 16C9.375 18.8284 9.375 20.2426 10.2537 21.1213C11.1324 22 12.5464 22 15.3748 22L16.3748 22C19.2032 22 20.6174 22 21.4961 21.1213C22.3748 20.2426 22.3748 18.8284 22.3748 16L22.3748 8C22.3748 5.17158 22.3748 3.75736 21.4961 2.87868C20.6174 2 19.2032 2 16.3748 2L15.3748 2C12.5464 2 11.1324 2 10.2537 2.87868C9.375 3.75736 9.375 5.17157 9.375 8Z" fill="#1C274C" />
-          <circle cx="10.5" cy="18.5" r="1.5" />
-          <circle cx="17.5" cy="18.5" r="1.5" />
+      @if(session('name'))
+      <a class="pl-3 inline-block no-underline" href="{{ route('logout') }}">
+        <svg width="26px" height="26px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 12L2 12M2 12L5.5 9M2 12L5.5 15" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M9.00195 7C9.01406 4.82497 9.11051 3.64706 9.87889 2.87868C10.7576 2 12.1718 2 15.0002 2L16.0002 2C18.8286 2 20.2429 2 21.1215 2.87868C22.0002 3.75736 22.0002 5.17157 22.0002 8L22.0002 16C22.0002 18.8284 22.0002 20.2426 21.1215 21.1213C20.3531 21.8897 19.1752 21.9862 17 21.9983M9.00195 17C9.01406 19.175 9.11051 20.3529 9.87889 21.1213C10.5202 21.7626 11.4467 21.9359 13 21.9827" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
         </svg>
       </a>
+      @else
+      <a class="pl-3 inline-block no-underline" href="{{ route('logout') }}">
+        <svg width="26px" height="26px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        </svg>
+      </a>
+      @endif
 
     </div>
     </div>
@@ -237,6 +293,9 @@
       </div>
     </div>
   </footer>
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <!-- Font Awesome -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
 
 </body>
 

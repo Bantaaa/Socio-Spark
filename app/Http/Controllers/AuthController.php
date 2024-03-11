@@ -81,9 +81,9 @@ class AuthController extends Controller
                 // 'role' => $user->role,
                 'name' => $user->name,
                 'user_id' => $user->id,
-                'role' => $user->role,
+                'role_id' => $user->role_id,
             ]);
-            // dd(session('role'));
+            // dd(session('role_id'));
             if($user ->active == 0)
             {
                 return redirect()->route('forbidden');

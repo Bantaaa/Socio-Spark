@@ -18,7 +18,10 @@ class EventController extends Controller
     {
 
         // $users = User::all();
-        $events = Event::where('validated', 1)->paginate(1);
+
+        $events = Event::where('validated', 1)->get();
+        $paginatedEvents = Event::where('validated', 1)->paginate(6);
+        $categories = Category::all();
 
         // dd($myEvents);
         // $canceledEvents = Event::where('user_id', Auth::user()->id)->where('validated', 3)->get();
@@ -31,7 +34,7 @@ class EventController extends Controller
             $myEvents = Event::where('user_id', Auth::user()->id)->get();
         }
         // dd($currentUser->image);
-        return view('home', compact('events', 'currentUser', 'myEvents'));
+        return view('home', compact('events', 'currentUser', 'myEvents','paginatedEvents', 'categories'));
     }
 
     public function singleEvent($id)
@@ -56,8 +59,12 @@ class EventController extends Controller
     public function create()
     {
         //
+        $currentUser = 0;
+        if (Auth::user()) {
+            $currentUser = User::where('id', session('user_id'))->first();
+        }
         $categories = Category::all();
-        return view('includes.form', compact('categories'));
+        return view('includes.form', compact('categories', 'currentUser',));
     }
 
     /**
@@ -121,19 +128,52 @@ class EventController extends Controller
 
     public function searchEvents(Request $request)
     {
-        $keyword = $request->input('title_s');
+        $keyword = $request->get('query');
+        $events = Event::where('validated', 1)->get();
+        $categories = Category::all();
+
+        
+
 
         if ($keyword === '') {
             // If the search keyword is empty, return all events or handle as needed
-            $users = User::all();
+            $paginatedEvents = Event::where('validated', 1)->paginate(3);
         } else {
             // Search for users with names containing the keyword
-            $events = Event::where('title', 'like', '%' . $keyword . '%')->get();
+            $paginatedEvents = Event::where('title', 'like', '%' . $keyword . '%')->where('validated', 1)->paginate(3);
         }
 
         // dd($users);
+        $currentUser = 0;
+        $myEvents = 0;
+        if (Auth::user()) {
+            $currentUser = User::where('id', session('user_id'))->first();
+            $myEvents = Event::where('user_id', Auth::user()->id)->get();
+        }
+        return view('home', compact('paginatedEvents', 'currentUser', 'myEvents', 'events', 'categories'));
+    }
+    public function searchCategories(Request $request)
+    {
+        $keyword = $request->get('query');
+        $events = Event::where('validated', 1)->get();
+        $categories = Category::all();
 
-        return response()->json($events);
+        if ($keyword === '') {
+            // If the search keyword is empty, return all events or handle as needed
+            $paginatedEvents = Event::where('validated', 1)->paginate(3);
+        } else {
+            // Search for users with names containing the keyword
+            $paginatedEvents = Event::where('category_id', 'like', '%' . $keyword . '%')->where('validated', 1)->paginate(3);
+        }
+
+        // dd($users);
+        $currentUser = 0;
+        $myEvents = 0;
+        if (Auth::user()) {
+            $currentUser = User::where('id', session('user_id'))->first();
+            $myEvents = Event::where('user_id', Auth::user()->id)->get();
+        }
+        return view('home', compact('paginatedEvents', 'currentUser', 'myEvents', 'events', 'categories'));
     }
 
 
@@ -143,8 +183,9 @@ class EventController extends Controller
     public function edit(int $id)
     {
         $categories = Category::all();
+        $currentUser = User::where('id', session('user_id'))->first();
         $event = Event::findOrFail($id);
-        return view('includes.update', compact('event', 'categories'));
+        return view('includes.update', compact('event', 'categories', 'currentUser'));
     }
 
     /**

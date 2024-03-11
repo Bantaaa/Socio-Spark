@@ -20,11 +20,9 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             
             $table->string('title');
-
-            // $table->integer('prix');
             $table->text('description')->nullable();
             $table->string('place');
-            $table->integer('quantity')->default(1);
+            $table->unsignedBigInteger('quantity')->default(0);
             $table->boolean('validated')->default(0);
             $table->boolean('autoTicket')->default(1);
             $table->date('date');

@@ -55,6 +55,9 @@ class Kernel extends HttpKernel
         ],
         'event.owner' => [
             \App\Http\Middleware\VerifyEventOwner::class,
+        ],
+        'banned' => [
+            \App\Http\Middleware\BannedMiddleware::class,
         ]
     ];
 

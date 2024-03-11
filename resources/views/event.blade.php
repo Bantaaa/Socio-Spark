@@ -38,12 +38,19 @@
             <div class="flex-shrink-0 p-6 flex flex-col items-center">
                 <img src="{{ asset('images/profile/'.$currentUser->image) }}" alt="Profile Picture" class="h-20 w-20 rounded-full">
                 <div class="mt-4">
+                    @if($event->quantity > 0)
                     <form action="{{ route('reserve',['eventId' => $event->id,'plan' => 'standard']) }}" method="post">
                         @csrf
                         <button type="submit" id="regularTicketButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
                             Take ticket
                         </button>
                     </form>
+                    @else
+                    <button id="soldOutButton" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        Tickets are sold out
+                    </button>
+                    @endif
                 </div>
                 <div class="mt-4">
                     <p>left: {{ $left }}</p>
@@ -79,12 +86,19 @@
             <div class="flex-shrink-0 p-6 flex flex-col items-center">
                 <img src="{{ asset('images/profile/'.$currentUser->image) }}" alt="Profile Picture" class="h-20 w-20 rounded-full">
                 <div class="mt-4">
+                    @if($event->quantity > 0)
                     <form action="{{ route('reserve',['eventId' => $event->id, 'plan' => 'vip']) }}" method="post">
                         @csrf
                         <button id="vipTicketButton" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700">
                             Take VIP ticket
                         </button>
                     </form>
+                    @else
+                    <button id="soldOutButton" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        Tickets are sold out
+                    </button>
+                    @endif
                 </div>
                 <div class="mt-4">
                     <p>left: {{ $left }}</p>
@@ -262,7 +276,7 @@
         <script>
             const regularTicketButton = document.querySelector('#regularTicketButton');
             const regularTextButton = document.querySelector('#regulartext');
-            constvipTextButton = document.querySelector('#viptext');
+            const vipTextButton = document.querySelector('#viptext');
             const vipTextContainer = document.querySelector('#vipTextContainer');
             const vipTicketButton = document.querySelector('#vipTicketButton');
             const regularTicketInfo = document.querySelector('#regularTicket');
@@ -309,7 +323,9 @@
                         <img src="{{ asset('images/'.$event->image) }}" alt="Event 1" class="h-12 w-12 rounded-full">
                         <p class="ml-4">{{ $event->title }}</p>
                     </div>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">View</button>
+                    <form action="{{ route('singleEvent', ['id'=> $event->id]) }}" method="get">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">View</button>
+                    </form>
                 </li>
                 @endforeach
                 <!-- Add more events here -->

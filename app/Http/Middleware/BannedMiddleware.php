@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-
-class OrganizerMiddleware
+class BannedMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,7 +16,7 @@ class OrganizerMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::user() || ($request->user()->role_id !== 2 && $request->user()->role_id !== 1)) {
+        if (!Auth::user() || $request->user()->role_id !== 4) {
             abort(403, 'Unauthorized');
         }
         return $next($request);

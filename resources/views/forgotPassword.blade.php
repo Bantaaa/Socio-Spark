@@ -20,7 +20,7 @@
                 Forgot your password?
             </h2>
             <p class="text-base font-normal text-gray-500 dark:text-gray-400">
-                Don't fret! Just type in your email and we will send you a code to reset your password!
+                Type in your email and we will send you a code to reset your password!
             </p>
 
             @session('status')

@@ -60,7 +60,7 @@ class ReservationController extends Controller
             ]);
             // dd($reservation);
         }
-        elseif(!$reserved && $auto && $event->validated == 1)
+        elseif(!$reserved && $auto && $event->validated == 1 && $event->quantity > 0)
         {
             $reservation = Reservation::create([
                 'user_id' => Auth::id(),
