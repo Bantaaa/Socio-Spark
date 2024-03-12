@@ -17,7 +17,6 @@ class OrgaController extends Controller
     {
         //
         $currentUser = Auth::user();
-            
         // $reservationRequest = [];
         // $myEvents = Event::where('user_id', Auth::user()->id)->get();
         $myEvents = Event::where('user_id', Auth::user()->id)
